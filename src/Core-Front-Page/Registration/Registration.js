@@ -11,38 +11,67 @@ function Registration() {
     handleNavToggle(); // Call the function to initialize navigation toggle functionality
   }, []);
 
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [dateOfBirth, setDateOfBirth] = useState('');
   const [gender, setGender] = useState('');
-
+  
+  const [nameError, setNameError] = useState('');
   const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
   const [dateOfBirthError, setDateOfBirthError] = useState('');
 
   const validationRegistration = () => {
     let isValid = true;
 
+    const namePattern = /^[a-zA-Z\s]+$/; // Only letters and spaces allowed
+    if (name.trim() === '') {
+        setNameError('Name is required');
+        isValid = false;
+    } else if (!namePattern.test(name)) {
+        setNameError('Name can only contain letters and spaces');
+        isValid = false;
+    } else {
+        if (name.trim().length < 6) {
+            setNameError('Name must be at least 6 characters long');
+            isValid = false;
+        } else {
+            setNameError('');
+        }
+    }
+
     // Email validation
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (email.trim() === '') {
-          setEmailError('Email is required');
-          isValid = false;
-      } else if (!emailPattern.test(email)) {
-          setEmailError('Invalid email address');
-          isValid = false;
-      } else {
-          setEmailError('');
-      }
+    if (email.trim() === '') {
+        setEmailError('Email is required');
+        isValid = false;
+    } else if (!emailPattern.test(email)) {
+        setEmailError('Invalid email address');
+        isValid = false;
+    } else {
+        setEmailError('');
+    }
+
+    const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/; // Minimum 6 characters, at least one letter and one number
+    // Password validation
+      if (password.trim() === '') {
+        setPasswordError('Password is required');
+        isValid = false;
+    } else if (!passwordPattern.test(password)) {
+        setPasswordError('Password must contain at least one letter and one number');
+        isValid = false;
+    } else {
+        setPasswordError('');
+    }
 
     const dateOfBirthPattern = /^\d{4}-\d{2}-\d{2}$/;
-
     if (dateOfBirth.trim() === '') {
         setDateOfBirthError('Date of Birth is required');
         isValid = false;
-
     } else if (!dateOfBirthPattern.test(dateOfBirth)) {
         setDateOfBirthError('Invalid date format. Use YYYY-MM-DD');
         isValid = false;
-
     } else {
         const today = new Date();
         const birthDate = new Date(dateOfBirth);
@@ -117,6 +146,12 @@ function Registration() {
         <div className='login-container'>
             <div className='form'>
               <h2 className='UserAccount-title'>Register Account</h2>
+
+              <div className='box'>
+                  <p>Name</p>
+                  <input type='text' placeholder='Add your Name' onChange={(e) => setName(e.target.value)} />
+                  <p style={{ color: 'red' }}>{nameError}</p> {/* Display name validation error */}
+                </div>
                     
                 <div className='box'>
                   <p>Email</p>
@@ -125,9 +160,15 @@ function Registration() {
                 </div>
 
                 <div className='box'>
+                  <p>Password</p>
+                  <input type='password' placeholder='Add your Password' onChange={(e) => setPassword(e.target.value)} />
+                  <p style={{ color: 'red' }}>{passwordError}</p> {/* Display password validation error */}
+                </div>
+
+                <div className='box'>
                   <p>Date of Birth</p>
                   <input type='date' onChange={(e) => setDateOfBirth(e.target.value)} />
-                  <p>{dateOfBirthError}</p> {/* Display date of birth validation error */}
+                  <p style={{ color: 'red' }}>{dateOfBirthError}</p> {/* Display date of birth validation error */}
                 </div>
 
                 <div className='box'>

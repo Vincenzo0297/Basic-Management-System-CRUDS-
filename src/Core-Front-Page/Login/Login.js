@@ -7,18 +7,53 @@ import '../Main Page/MainPage.css'; // Import the CSS file for styling
 import './Login.css'; // Import the CSS file for styling
 import { handleNavToggle } from '../Main Page/JavaScript'; // Ensure this path is correct
 
-
 function Login() {
-  const [showPassword, setShowPassword] = useState(false);
-  const [password, setPassword] = useState('');
-
   useEffect(() => {
     handleNavToggle(); // Call the function to initialize navigation toggle functionality
   }, []);
 
+  const [email, setEmail] = useState('');
+  const [showPassword, setShowPassword] = useState(false);  
+  const [password, setPassword] = useState('');
+  
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+
+  const validationLogin = () => {
+    let isValid = true;
+
+    // Email validation
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (email.trim() === '') {
+        setEmailError('Email is required');
+        isValid = false;
+    } else if (!emailPattern.test(email)) {
+        setEmailError('Invalid email address');
+        isValid = false;
+    } else {
+        setEmailError('');
+    }
+
+    // Password validation
+    const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/; // Minimum 6 characters, at least one letter and one number
+    // Password validation
+      if (password.trim() === '') {
+        setPasswordError('Password is required');
+        isValid = false;
+    } else if (!passwordPattern.test(password)) {
+        setPasswordError('Password must contain at least one letter and one number');
+        isValid = false;
+    } else {
+        setPasswordError('');
+    }
+    return isValid;
+  };
+
   const login = () => {
-    // Placeholder login function
-    alert('Not ready yet.');
+    if (validationLogin()) {
+      // Placeholder login function
+      alert('Login successful!');
+    }
   };
 
   const togglePasswordVisibility = () => {
@@ -60,11 +95,13 @@ function Login() {
             <div className='form'>
               <h2>Login</h2>
                 <div className='box'>
-                    <input type='email' placeholder='Email' />
+                    <input type='email' placeholder='Email' onChange={(e) => setEmail(e.target.value)} />
+                    {emailError && <p className='error'>{emailError}</p>}
                 </div>
 
                 <div className='box'>
                   <input type={showPassword ? 'text' : 'password'} placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} />
+                  {passwordError && <p className='error'>{passwordError}</p>}
                     <span className='toggle-password' onClick={togglePasswordVisibility}>
                         {showPassword ? <FaEyeSlash /> : <FaEye />} {/* Font Awesome icons */}
                     </span>
