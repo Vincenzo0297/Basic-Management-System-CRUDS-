@@ -1,9 +1,12 @@
 .login-container .form .box select {
     width: 100%;
-    border: none;
-    outline: none;
-    border-bottom: 1px solid #8a8a8a;
+    border-radius: 8px;
+    outline:#000000;
     padding: 20px 0px;
     padding-right: 40px;
-    font-size: 16px;
+    font-size: 14px;
 }
+
+
+ 
+  

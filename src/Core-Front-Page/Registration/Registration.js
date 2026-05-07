@@ -54,7 +54,7 @@ function Registration() {
 
                 <div className='box'>
                   <p>Date of Birth</p>
-                  <input type='date' placeholder='Add your Date of Birth'/>
+                  <input type='date'/>
                 </div>
 
                 <div className='box'>
