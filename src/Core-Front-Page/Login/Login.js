@@ -1,14 +1,28 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Login.css'; // Import the CSS file for styling
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faBars } from '@fortawesome/free-solid-svg-icons';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import '../Main Page/MainPage.css'; // Import the CSS file for styling
 import { handleNavToggle } from '../Main Page/JavaScript'; // Ensure this path is correct
+import { Link } from 'react-router-dom';
 
 function Login() {
+  const [showPassword, setShowPassword] = useState(false);
+  const [password, setPassword] = useState('');
+
   useEffect(() => {
     handleNavToggle(); // Call the function to initialize navigation toggle functionality
   }, []);
+
+   const login = () => {
+    // Placeholder login function
+    alert('Not ready yet.');
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
 
   return (
     <div>
@@ -41,35 +55,23 @@ function Login() {
           </nav>
         </header>
 
-        <main className="about section" id="#">
-            <div className="container">
-                <div className="row">
-                    <div className="about-content padd-15">
-                        <div className="row">
-                            <div className="about-text padd-15">    
-                                <h2>Welcome!</h2>
-                                <p>
-                                    You can easily plan and reserve time with your significant other, ensuring those 
-                                    special moments are never missed. Whether it’s a spontaneous date or a planned 
-                                    surprise, our platform helps you prioritize your relationship in a fun and organized way. 
-                                    Start reserving now and make every moment count!
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
+        <div className='login-container'>
+            <div className='form'>
+              <h2>Login</h2>
+                <div className='box'>
+                    <input type='email' placeholder='Email' />
                 </div>
-            </div>
-        </main>
 
-        <footer>
-            <h1>Connect with me</h1>
-            <p class="description">
-                Stay updated and never miss out on the latest reservations and romantic ideas! <br></br>
-                Follow me on social media for tips, inspiration, and exclusive offers.
-              </p>
-            <p>© Copyright: Foolish Developer</p>
-        </footer>
+                <div className='box'>
+                  <input type={showPassword ? 'text' : 'password'} placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} />
+                    <span className='toggle-password' onClick={togglePasswordVisibility}>
+                        {showPassword ? <FaEyeSlash /> : <FaEye />} {/* Font Awesome icons */}
+                    </span>
+                </div>
+                    <button onClick={login}>Sign In Your Account</button>
+                    <p>Don't Have An Account?<Link to='/Registration'> Create Account</Link></p>
+            </div>
+        </div>
     </div>
   );
 }
