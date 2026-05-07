@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
-import './Registration.css'; // Import the CSS file for styling
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faBars } from '@fortawesome/free-solid-svg-icons';
 import '../Main Page/MainPage.css'; // Import the CSS file for styling
+import './Registration.css'; // Import the CSS file for styling
 import { handleNavToggle } from '../Main Page/JavaScript'; // Ensure this path is correct
-  
+
 function Registration() {
   useEffect(() => {
     handleNavToggle(); // Call the function to initialize navigation toggle functionality
@@ -42,26 +43,32 @@ function Registration() {
           </nav>
         </header>
 
-        <main className="about section" id="#">
-            <div className="container">
-                <div className="row">
-                    <div className="about-content padd-15">
-                        <div className="row">
-                            <div className="about-text padd-15">    
-                                <h2>Welcome!</h2>
-                                <p>
-                                    You can easily plan and reserve time with your significant other, ensuring those 
-                                    special moments are never missed. Whether it’s a spontaneous date or a planned 
-                                    surprise, our platform helps you prioritize your relationship in a fun and organized way. 
-                                    Start reserving now and make every moment count!
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
+        <div className='login-container'>
+            <div className='form'>
+              <h2 className='UserAccount-title'>Register your Account</h2>
+                    
+                <div className='box'>
+                  <p>Email</p>
+                  <input type='email' placeholder='Add your Email'/>
                 </div>
+
+                <div className='box'>
+                  <p>Date of Birth</p>
+                  <input type='date' placeholder='Add your Date of Birth'/>
+                </div>
+
+                <div className='box'>
+                  <p>Gender</p>
+                    <select>
+                      <option value=''>Select your Gender</option>
+                      <option value='Male'>Male</option>
+                      <option value='Female'>Female</option>
+                    </select>
+                </div>
+                <button>Create Account</button>
+                <p>Already Have An Account?<Link to='/login'> Login Here</Link></p>
             </div>
-        </main>
+        </div>
 
         <footer>
             <h1>Connect with me</h1>

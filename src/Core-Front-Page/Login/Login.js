@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import './Login.css'; // Import the CSS file for styling
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faBars } from '@fortawesome/free-solid-svg-icons';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import '../Main Page/MainPage.css'; // Import the CSS file for styling
+import './Login.css'; // Import the CSS file for styling
 import { handleNavToggle } from '../Main Page/JavaScript'; // Ensure this path is correct
-import { Link } from 'react-router-dom';
+
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
