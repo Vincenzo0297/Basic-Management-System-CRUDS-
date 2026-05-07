@@ -107,7 +107,7 @@ function Login() {
                     </span>
                 </div>
                     <button onClick={login}>Sign In Your Account</button>
-                    <p>Don't Have An Account?<Link to='/Registration'> Create Account</Link></p>
+                    <p>Don't Have An Account?<Link to='/Registration' style={{ color: 'blue'}}> Create Account</Link></p>
             </div>
         </div>
     </div>

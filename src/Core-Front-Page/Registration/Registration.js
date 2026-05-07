@@ -180,7 +180,7 @@ function Registration() {
                     </select>
                 </div>
                 <button onClick={register}>Create Account</button>
-                <p>Already Have An Account?<Link to='/login'> Login Here</Link></p>
+                <p>Already Have An Account?<Link to='/login' style={{ color: 'blue' }}> Login Here</Link></p>
             </div>
         </div>
 
