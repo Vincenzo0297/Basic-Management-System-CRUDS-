@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faBars } from '@fortawesome/free-solid-svg-icons';
@@ -10,6 +10,43 @@ function Registration() {
   useEffect(() => {
     handleNavToggle(); // Call the function to initialize navigation toggle functionality
   }, []);
+
+  const [email, setEmail] = useState('');
+  const [dateOfBirth, setDateOfBirth] = useState('');
+  const [gender, setGender] = useState('');
+
+  const [emailError, setEmailError] = useState('');
+  const [dateOfBirthError, setDateOfBirthError] = useState('');
+
+  const validationRegistration = () => {
+    let isValid = true;
+    // Email validation
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (email.trim() === '') {
+        setEmailError('Email is required');
+        isValid = false;
+    } else if (!emailPattern.test(email)) {
+        setEmailError('Invalid email address');
+        isValid = false;
+    } else {
+        setEmailError('');
+    }
+
+    // DOB validation
+    const dateOfBirthPattern = /^\d{4}-\d{2}-\d{2}$/;
+
+    if (dateOfBirth.trim() === '') {
+        setDateOfBirthError('Date of Birth is required');
+        isValid = false;
+    } else if (!dateOfBirthPattern.test(dateOfBirth)) {
+        setDateOfBirthError('Invalid date format. Use YYYY-MM-DD');
+        isValid = false;
+    } else {
+        setDateOfBirthError('');
+    }
+    return isValid;
+  };
 
   return (
       <div>
@@ -49,12 +86,14 @@ function Registration() {
                     
                 <div className='box'>
                   <p>Email</p>
-                  <input type='email' placeholder='Add your Email'/>
+                  <input type='email' placeholder='Add your Email' onChange={(e) => setEmail(e.target.value)} />
+                  <p>{emailError}</p> {/* Display email validation error */}  
                 </div>
 
                 <div className='box'>
                   <p>Date of Birth</p>
-                  <input type='date'/>
+                  <input type='date' onChange={(e) => setDateOfBirth(e.target.value)} />
+                  <p>{dateOfBirthError}</p> {/* Display date of birth validation error */}
                 </div>
 
                 <div className='box'>

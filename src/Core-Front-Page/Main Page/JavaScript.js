@@ -8,6 +8,7 @@ export function handleNavToggle() {
     console.log("navToggle:", navToggle);
     console.log("navClose:", navClose);
     console.log("navLinks:", navLinks);
+    
     /*=============== SHOW MENU ===============*/
     /* validate if constant exists */
     if (navToggle) {
