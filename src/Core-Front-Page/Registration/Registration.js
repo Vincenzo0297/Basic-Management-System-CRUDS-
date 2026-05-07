@@ -20,32 +20,66 @@ function Registration() {
 
   const validationRegistration = () => {
     let isValid = true;
+
     // Email validation
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (email.trim() === '') {
+          setEmailError('Email is required');
+          isValid = false;
+      } else if (!emailPattern.test(email)) {
+          setEmailError('Invalid email address');
+          isValid = false;
+      } else {
+          setEmailError('');
+      }
 
-    if (email.trim() === '') {
-        setEmailError('Email is required');
-        isValid = false;
-    } else if (!emailPattern.test(email)) {
-        setEmailError('Invalid email address');
-        isValid = false;
-    } else {
-        setEmailError('');
-    }
-
-    // DOB validation
     const dateOfBirthPattern = /^\d{4}-\d{2}-\d{2}$/;
 
     if (dateOfBirth.trim() === '') {
         setDateOfBirthError('Date of Birth is required');
         isValid = false;
+
     } else if (!dateOfBirthPattern.test(dateOfBirth)) {
         setDateOfBirthError('Invalid date format. Use YYYY-MM-DD');
         isValid = false;
+
     } else {
-        setDateOfBirthError('');
+        const today = new Date();
+        const birthDate = new Date(dateOfBirth);
+
+        // Check if date is today or in the future
+        if (birthDate >= today) {
+            setDateOfBirthError('Date of Birth cannot be today or a future date');
+            isValid = false;
+        } else {
+            // Calculate age
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const monthDiff = today.getMonth() - birthDate.getMonth();
+
+            if (
+                monthDiff < 0 ||
+                (monthDiff === 0 && today.getDate() < birthDate.getDate())
+            ) {
+                age--;
+            }
+
+            // Check if user is at least 18 years old
+            if (age < 18) {
+                setDateOfBirthError('You must be at least 18 years old');
+                isValid = false;
+            } else {
+                setDateOfBirthError('');
+            }
+        }
     }
     return isValid;
+  };
+
+  const register = () => {
+    if (validationRegistration()) {
+      // Placeholder registration function
+      alert('Not yet ready!');
+    }
   };
 
   return (
@@ -87,7 +121,7 @@ function Registration() {
                 <div className='box'>
                   <p>Email</p>
                   <input type='email' placeholder='Add your Email' onChange={(e) => setEmail(e.target.value)} />
-                  <p>{emailError}</p> {/* Display email validation error */}  
+                  <p style={{ color: 'red' }}>{emailError}</p> {/* Display email validation error */}
                 </div>
 
                 <div className='box'>
@@ -104,7 +138,7 @@ function Registration() {
                       <option value='Female'>Female</option>
                     </select>
                 </div>
-                <button>Create Account</button>
+                <button onClick={register}>Create Account</button>
                 <p>Already Have An Account?<Link to='/login'> Login Here</Link></p>
             </div>
         </div>

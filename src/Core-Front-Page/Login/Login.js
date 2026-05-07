@@ -16,7 +16,7 @@ function Login() {
     handleNavToggle(); // Call the function to initialize navigation toggle functionality
   }, []);
 
-   const login = () => {
+  const login = () => {
     // Placeholder login function
     alert('Not ready yet.');
   };
