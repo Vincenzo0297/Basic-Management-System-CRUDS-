@@ -45,7 +45,7 @@ function Registration() {
 
         <div className='login-container'>
             <div className='form'>
-              <h2 className='UserAccount-title'>Register your Account</h2>
+              <h2 className='UserAccount-title'>Register Account</h2>
                     
                 <div className='box'>
                   <p>Email</p>
