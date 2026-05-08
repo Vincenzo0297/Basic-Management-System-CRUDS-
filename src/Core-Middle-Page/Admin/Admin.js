@@ -6,19 +6,21 @@ import { handleNavToggle } from '../../Core-Front-Page/Main Page/JavaScript'; //
 function Admin() {
     useEffect(() => {
         handleNavToggle(); // Call the function to initialize navigation toggle functionality
-    }, []);
+}, []);
 
-    return (
-        <div>
-            <header className="header" id="header">
-                {/* ==== NAV ===*/}
-                <nav className="nav container">
+return (
+    <div>
+        <header className="header" id="header">
+            {/* ==== NAV ===*/}
+            <nav className="nav container">
 
-                    {/* ==== NAV MENU ===*/}
-                    <div className="nav-menu" id="nav-menu">
+                {/* ==== NAV MENU ===*/}
+                <div className="nav-menu" id="nav-menu">
                     {/* ==== NAV LIST ===*/}
                     <ul className="nav-list">
-                        <li className="nav-item"><a href="" className="nav-link">Admin Page</a></li>
+                        <li className="nav-item"><a href="/" className="nav-link">Profile</a></li>
+                        <li className="nav-item"><a href="/ManageUsers" className="nav-link">Manage Users</a></li>
+                        <li className="nav-item"><a href="/Reservations" className="nav-link">Reservations</a></li>
                         <li className="nav-item"><a href="/Logout" className="nav-link">Logout</a></li>
                     </ul> 
 
@@ -26,27 +28,27 @@ function Admin() {
                     <div className="nav-close" id="nav-close">
                         <FontAwesomeIcon icon={faTimes} />
                     </div>
-                    </div>
+                </div>
 
-                    {/* ==== NAV BUTTON ===*/}
-                    <div className="nav-btn">
+                {/* ==== NAV BUTTON ===*/}
+                <div className="nav-btn">
                     {/* ==== TOGGLE BUTTON ===*/}
                     <div className="nav-toggle" id="nav-toggle">
                         <FontAwesomeIcon icon={faBars} />
                     </div>
-                    </div>
-                </nav>
-            </header>
+                </div>
+            </nav>
+        </header>
 
-            <footer>
-                <h1>Connect with me</h1>
-                    <p class="description">
-                        Stay updated and never miss out on the latest reservations and romantic ideas! <br></br>
-                        Follow me on social media for tips, inspiration, and exclusive offers.
-                    </p>
-                    <p>© Copyright: Foolish Developer</p>
-            </footer>
-        </div>
+        <footer>
+            <h1>Connect with me</h1>
+                <p class="description">
+                    Stay updated and never miss out on the latest reservations and romantic ideas! <br></br>
+                    Follow me on social media for tips, inspiration, and exclusive offers.
+                </p>
+                <p>© Copyright: Foolish Developer</p>
+        </footer>
+    </div>
     );
 }
 

@@ -7,10 +7,14 @@ import MainPage from './Core-Front-Page/Main Page/MainPage';
 import Login from './Core-Front-Page/Login/Login';
 import Registration from './Core-Front-Page/Registration/Registration';
 
-// Core Middle Page
+// Core Middle Page Admin
+import Admin from './Core-Middle-Page/Admin/Admin'; 
+import ManageUsers from './Core-Middle-Page/Admin/ManageUsers';
+
+// Core Middle Page User
 import User from './Core-Middle-Page/User/User';
 import Logout from './Core-Middle-Page/Logout';
-import Admin from './Core-Middle-Page/Admin/Admin'; 
+
 
 function App() {
   return (
@@ -22,8 +26,12 @@ function App() {
               <Route path="/Login" element={<Login />} />
               <Route path="/Registration" element={<Registration />} />
 
-              <Route path="/User" element={<User />} />
               <Route path="/Admin" element={<Admin />} />
+              <Route path="/ManageUsers" element={<ManageUsers />} />
+
+
+
+              <Route path="/User" element={<User />} />
               <Route path="/Logout" element={<Logout />} />
 
               {/* Redirect any unknown routes to the main page */}

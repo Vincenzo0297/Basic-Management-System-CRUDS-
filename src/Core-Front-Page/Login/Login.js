@@ -113,24 +113,24 @@ function Login() {
 
   return (
     <div>
-         <header className="header" id="header">
-          {/* ==== NAV ===*/}
-          <nav className="nav container">
+      <header className="header" id="header">
+        {/* ==== NAV ===*/}
+        <nav className="nav container">
 
-            {/* ==== NAV MENU ===*/}
-            <div className="nav-menu" id="nav-menu">
-              {/* ==== NAV LIST ===*/}
-              <ul className="nav-list">
-                <li className="nav-item"><a href="/mainPage" className="nav-link">Home</a></li>
-                <li className="nav-item"><a href="/our-story" className="nav-link">Our Story</a></li>
-                <li className="nav-item"><a href="/promotions" className="nav-link">Promotion</a></li>
-              </ul> 
+          {/* ==== NAV MENU ===*/}
+          <div className="nav-menu" id="nav-menu">
+            {/* ==== NAV LIST ===*/}
+            <ul className="nav-list">
+              <li className="nav-item"><a href="/mainPage" className="nav-link">Home</a></li>
+              <li className="nav-item"><a href="/our-story" className="nav-link">Our Story</a></li>
+              <li className="nav-item"><a href="/promotions" className="nav-link">Promotion</a></li>
+            </ul> 
 
-                {/* ==== NAV CLOSE ===*/}
-              <div className="nav-close" id="nav-close">
-                <FontAwesomeIcon icon={faTimes} />
-              </div>
+              {/* ==== NAV CLOSE ===*/}
+            <div className="nav-close" id="nav-close">
+              <FontAwesomeIcon icon={faTimes} />
             </div>
+          </div>
 
             {/* ==== NAV BUTTON ===*/}
             <div className="nav-btn">
@@ -143,22 +143,22 @@ function Login() {
         </header>
 
         <div className='login-container'>
-            <div className='form'>
-              <h2>Car Booking System</h2>
-                <div className='box'>
-                    <input type='email' placeholder='Email' onChange={(e) => setEmail(e.target.value)} />
-                    {emailError && <p className='error'>{emailError}</p>}
-                </div>
+          <div className='form'>
+            <h2>Car Booking System</h2>
+              <div className='box'>
+                  <input type='email' placeholder='Email' onChange={(e) => setEmail(e.target.value)} />
+                  {emailError && <p className='error'>{emailError}</p>}
+              </div>
 
-                <div className='box'>
-                  <input type={showPassword ? 'text' : 'password'} placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} />
-                  {passwordError && <p className='error'>{passwordError}</p>}
-                    <span className='toggle-password' onClick={togglePasswordVisibility}>
-                        {showPassword ? <FaEyeSlash /> : <FaEye />} {/* Font Awesome icons */}
-                    </span>
+              <div className='box'>
+                <input type={showPassword ? 'text' : 'password'} placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} />
+                {passwordError && <p className='error'>{passwordError}</p>}
+                  <span className='toggle-password' onClick={togglePasswordVisibility}>
+                    {showPassword ? <FaEyeSlash /> : <FaEye />} {/* Font Awesome icons */}
+                  </span>
                 </div>
-                    <button onClick={login}>Login</button>
-                    <p>Don't Have An Account?<Link to='/Registration' style={{ color: 'blue'}}> Create Account</Link></p>
+                  <button onClick={login}>Login</button>
+                  <p>Don't Have An Account?<Link to='/Registration' style={{ color: 'blue'}}> Create Account</Link></p>
             </div>
         </div>
     </div>

@@ -15,7 +15,7 @@ function Registration() {
   }, []);
 
   // Initialize the navigate function for programmatic navigation
-   const navigate = useNavigate(); 
+  const navigate = useNavigate(); 
    
   // State variables for form fields
   const [name, setName] = useState('');
