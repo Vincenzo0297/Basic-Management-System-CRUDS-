@@ -18,9 +18,6 @@ function MainPage() {
           <div className="nav-menu" id="nav-menu">
               {/* ==== NAV LIST ===*/}
             <ul className="nav-list">
-              <li className="nav-item"><a href="/mainPage" className="nav-link">Home</a></li>
-              <li className="nav-item"><a href="/our-story" className="nav-link">Our Story</a></li>
-              <li className="nav-item"><a href="/promotions" className="nav-link">Promotion</a></li>
               <li className="nav-item"><a href="/login" className="nav-link">Login</a></li>
             </ul> 
 

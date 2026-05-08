@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faBars } from '@fortawesome/free-solid-svg-icons';
-import '../Main Page/MainPage.css'; // Import the CSS file for styling
-import './Registration.css'; // Import the CSS file for styling
-import { handleNavToggle } from '../Main Page/JavaScript'; // Ensure this path is correct
+import '../Core-Front-Page/Main Page/MainPage.css'; // Import the CSS file for styling
+import './Components.css'; // Import the CSS file for styling
+import { handleNavToggle } from '../Core-Front-Page/Main Page/JavaScript'; // Ensure this path is correct
 
-import {db} from '../../Firebase/firebase'; // Corrected import path for the Firestore database instance
+import {db} from '../Firebase/firebase'; // Corrected import path for the Firestore database instance
 import { getDocs, addDoc, collection, where, query } from 'firebase/firestore'; // Import necessary Firestore functions for querying and adding documents
 
-function Registration() {
+function AddUser() {
   useEffect(() => {
     handleNavToggle(); // Call the function to initialize navigation toggle functionality
   }, []);
@@ -144,27 +144,12 @@ function Registration() {
                 DateOfBirth: dateOfBirth,
                 UserType: userType // Store the userType
               });
-                alert('Sign Up Successfully');
-                navigateToUserTypePage(userType); // Pass the userType
+            alert('Add User Successfully');
         } 
     } catch (error) {
         alert(error.message);
     }
 };
-
-  // Function to navigate to the appropriate page based on user type
-  const navigateToUserTypePage = (UserType) => {
-    switch (UserType) {
-      case 'User':
-        navigate('/User');
-          break;
-      case 'Admin':
-        navigate('/Admin');
-          break;
-      default:
-          navigate('/');
-    }
-  };
 
   return (
       <div>
@@ -175,12 +160,13 @@ function Registration() {
             {/* ==== NAV MENU ===*/}
             <div className="nav-menu" id="nav-menu">
               {/* ==== NAV LIST ===*/}
-              <ul className="nav-list">
-                <li className="nav-item"><a href="/mainPage" className="nav-link">Home</a></li>
-                <li className="nav-item"><a href="/our-story" className="nav-link">Our Story</a></li>
-                <li className="nav-item"><a href="/promotions" className="nav-link">Promotion</a></li>
-                <li className="nav-item"><a href="/login" className="nav-link">Login</a></li>
-              </ul> 
+                <ul className="nav-list">
+                  <li className="nav-item"><a href="/Admin" className="nav-link">Home Page</a></li>
+                  <li className="nav-item"><a href="/" className="nav-link">Profile</a></li>
+                  <li className="nav-item"><a href="/ManageUsers" className="nav-link">Manage Users</a></li>
+                  <li className="nav-item"><a href="/" className="nav-link">Reservations</a></li>
+                  <li className="nav-item"><a href="/Logout" className="nav-link">Logout</a></li>
+                </ul> 
 
                 {/* ==== NAV CLOSE ===*/}
               <div className="nav-close" id="nav-close">
@@ -200,7 +186,7 @@ function Registration() {
 
         <div className='login-container'>
             <div className='form'>
-              <h2 className='UserAccount-title'>Register Account</h2>
+              <h2 className='UserAccount-title'>Add User</h2>
 
               <div className='box'>
                   <p>Name</p>
@@ -235,7 +221,7 @@ function Registration() {
                     </select>
                 </div>
                 <button onClick={register}>Create Account</button>
-                <p>Already Have An Account?<Link to='/login' style={{ color: 'blue' }}> Login Here</Link></p>
+                <button onClick={() => window.location.href = '/ManageUsers'}>Back</button>
             </div>
         </div>
 
@@ -251,4 +237,4 @@ function Registration() {
   );
 }
 
-export default Registration;
+export default AddUser;

@@ -122,8 +122,6 @@ function Login() {
             {/* ==== NAV LIST ===*/}
             <ul className="nav-list">
               <li className="nav-item"><a href="/mainPage" className="nav-link">Home</a></li>
-              <li className="nav-item"><a href="/our-story" className="nav-link">Our Story</a></li>
-              <li className="nav-item"><a href="/promotions" className="nav-link">Promotion</a></li>
             </ul> 
 
               {/* ==== NAV CLOSE ===*/}
@@ -158,7 +156,6 @@ function Login() {
                   </span>
                 </div>
                   <button onClick={login}>Login</button>
-                  <p>Don't Have An Account?<Link to='/Registration' style={{ color: 'blue'}}> Create Account</Link></p>
             </div>
         </div>
     </div>

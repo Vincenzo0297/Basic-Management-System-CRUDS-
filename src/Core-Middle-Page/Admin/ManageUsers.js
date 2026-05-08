@@ -48,6 +48,9 @@ return (
                     <div className = "table-responsive">
                         <table className = "table table-bordered">
                             <thead>
+                                <div className="manage-users-btn">
+                                   <a href="/AddUser" className="btn btn-primary">Add User</a>
+                                </div>
                                 <tr>
                                     <th>User ID</th>
                                     <th>Name</th>
@@ -61,14 +64,16 @@ return (
                                     <td>John Doe</td>
                                     <td>john.doe@example.com</td>
                                     <td>
-                                        <button className="btn btn-primary">Edit</button>
-                                        <button className="btn btn-danger">Delete</button>
+                                        <div className="manage-users-btn">
+                                            <button className="btn btn-primary">Edit</button>
+                                            <button className="btn btn-danger">Delete</button>
+                                        </div>
                                     </td>
                                 </tr>
                             </tbody>
-                        </table>
-                    </div>
-                </div>
+                        </table>   
+                    </div>           
+                </div>            
             </div>
         </main>
 
@@ -84,4 +89,4 @@ return (
     );
 }
 
-export default ManageUsers
+export default ManageUsers;
