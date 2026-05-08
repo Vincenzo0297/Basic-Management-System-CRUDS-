@@ -140,7 +140,7 @@ function Login() {
 
         <div className='login-container'>
             <div className='form'>
-              <h2>Login</h2>
+              <h2>Car Booking System</h2>
                 <div className='box'>
                     <input type='email' placeholder='Email' onChange={(e) => setEmail(e.target.value)} />
                     {emailError && <p className='error'>{emailError}</p>}
