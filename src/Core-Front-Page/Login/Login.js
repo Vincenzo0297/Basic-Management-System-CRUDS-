@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState, useContext } from 'react';
+import { UserContext } from '../../Firebase/Usercontent';
+import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faBars } from '@fortawesome/free-solid-svg-icons';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
@@ -7,10 +8,16 @@ import '../Main Page/MainPage.css'; // Import the CSS file for styling
 import './Login.css'; // Import the CSS file for styling
 import { handleNavToggle } from '../Main Page/JavaScript'; // Ensure this path is correct
 
+import {db} from '../../Firebase/firebase'; // Corrected import path for the Firestore database instance
+import { getDocs, addDoc, collection, where, query } from 'firebase/firestore'; // Import necessary Firestore functions for querying and adding documents
+
 function Login() {
   useEffect(() => {
     handleNavToggle(); // Call the function to initialize navigation toggle functionality
   }, []);
+
+  // Initialize the navigate function for programmatic navigation
+  const navigate = useNavigate(); 
 
   // State variables for form fields
   const [email, setEmail] = useState('');
@@ -20,6 +27,8 @@ function Login() {
   // State variables for validation errors
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+
+  const { setUser } = useContext(UserContext);
 
   const validationLogin = () => {
     let isValid = true;
@@ -53,15 +62,49 @@ function Login() {
 
   // Function to toggle password visibility
   const togglePasswordVisibility = () => {
-    setShowPassword((prev) => !prev);
+      setShowPassword((prev) => !prev);
+    };
+
+    const login = async () => {
+      const dbref = collection(db, 'Auth');
+
+      try {
+        const q = query(
+          dbref,
+          where('Email', '==', email),
+          where('Password', '==', password)
+        );
+
+        const snapshot = await getDocs(q);
+        const matchingUsers = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+
+        // Check if any matching user is found
+        if (matchingUsers.length > 0) {
+          // Set the user in context
+          const user = matchingUsers[0];
+          setUser(user);
+          alert('Login Successfully');
+          // Navigate based on user type
+          navigateToUserTypePage(user.UserType);
+        } else {
+          alert('Invalid email or password');
+        }
+      } catch (error) {
+        console.error('Error logging in:', error);
+      }
   };
 
-  // Placeholder login function
-  const login = () => {
-    if (validationLogin()) {
-      // Placeholder login function
-      alert('Login successful!');
-    }
+  const navigateToUserTypePage = (userType) => {
+      switch (userType) {
+        case 'User':
+          navigate('/User');
+          break;
+        default:
+          navigate('/');
+      }
   };
 
   return (
@@ -110,7 +153,7 @@ function Login() {
                         {showPassword ? <FaEyeSlash /> : <FaEye />} {/* Font Awesome icons */}
                     </span>
                 </div>
-                    <button onClick={login}>Sign In Your Account</button>
+                    <button onClick={login}>Login</button>
                     <p>Don't Have An Account?<Link to='/Registration' style={{ color: 'blue'}}> Create Account</Link></p>
             </div>
         </div>

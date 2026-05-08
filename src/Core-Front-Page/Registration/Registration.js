@@ -7,14 +7,16 @@ import './Registration.css'; // Import the CSS file for styling
 import { handleNavToggle } from '../Main Page/JavaScript'; // Ensure this path is correct
 
 import {db} from '../../Firebase/firebase'; // Corrected import path for the Firestore database instance
-import { getDocs, addDoc, collection, where, query } from 'firebase/firestore';
+import { getDocs, addDoc, collection, where, query } from 'firebase/firestore'; // Import necessary Firestore functions for querying and adding documents
 
 function Registration() {
-  const navigate = useNavigate();
   useEffect(() => {
     handleNavToggle(); // Call the function to initialize navigation toggle functionality
   }, []);
 
+  // Initialize the navigate function for programmatic navigation
+   const navigate = useNavigate(); 
+   
   // State variables for form fields
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
