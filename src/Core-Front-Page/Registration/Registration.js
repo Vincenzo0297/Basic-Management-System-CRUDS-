@@ -158,6 +158,9 @@ function Registration() {
       case 'User':
         navigate('/User');
           break;
+      case 'Admin':
+        navigate('/Admin');
+          break;
       default:
           navigate('/');
     }

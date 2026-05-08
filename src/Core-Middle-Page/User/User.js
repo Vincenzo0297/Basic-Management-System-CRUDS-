@@ -18,6 +18,7 @@ function User() {
                     <div className="nav-menu" id="nav-menu">
                     {/* ==== NAV LIST ===*/}
                     <ul className="nav-list">
+                         <li className="nav-item"><a href="" className="nav-link">User Page</a></li>
                         <li className="nav-item"><a href="/Logout" className="nav-link">Logout</a></li>
                     </ul> 
 
@@ -36,6 +37,11 @@ function User() {
                     </div>
                 </nav>
             </header>
+
+            <div className='user-container'>
+                <h1>Welcome to the User Page</h1>
+                <p>This is where you can view your reservations, update your profile, and explore romantic ideas for your next date night.</p>
+            </div>
 
             <footer>
                 <h1>Connect with me</h1>

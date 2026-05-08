@@ -89,6 +89,7 @@ function Login() {
           alert('Login Successfully');
           // Navigate based on user type
           navigateToUserTypePage(user.UserType);
+      
         } else {
           alert('Invalid email or password');
         }
@@ -101,6 +102,9 @@ function Login() {
       switch (userType) {
         case 'User':
           navigate('/User');
+          break;
+        case 'Admin':
+          navigate('/Admin'); 
           break;
         default:
           navigate('/');
