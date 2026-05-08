@@ -206,6 +206,49 @@ h3{
     margin-bottom: var(--m-1);
 }
 
+/*========== Experience ==========*/
+.experience {
+    flex: 0 0 100%;
+    max-width: 100%;
+    text-align: center;
+    margin-bottom: var(--m-2-5);
+  }
+  .experience .section-title.padd-15 {
+    margin-top: 100px; /* Adjust the value as needed */
+  }
+  .experience-item {
+    flex: 0 0 33.33%;
+    max-width: 33.33%;
+    margin-bottom: var(--m-1-5);
+  }
+  
+  .experience-item .icon {
+    font-size: 6rem; /* Adjust the size of the icon */
+  }
+  
+  .experience-item-inner {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .experience-item h1 {
+    margin-top: 50px; /* Adjust margin as needed */
+    font-size: 1.5rem; /* Adjust font size as needed */
+    text-align: left; /* Align text to the left */
+  }
+  
+  .experience-item p {
+    margin-top: 10px; /* Adjust margin as needed */
+    font-size: 1rem; /* Adjust font size as needed */
+    text-align: left; /* Align text to the left */
+  }
+  
+  .experience-item .btn {
+    margin-top: 10px; /* Adjust margin as needed */
+    padding: 10px 20px; /* Adjust padding as needed */
+    font-size: 1rem; /* Adjust font size as needed */
+  }
+
 /*========== Footer ==========*/
 footer{
     margin-top: 60px;
@@ -287,6 +330,41 @@ footer p{
     }
     .about-content .about-text{
         margin-bottom: var(--m-1-5);
+    }
+    /* Experience section */
+    .experience {
+        flex: 0 0 100%;
+        max-width: 100%;
+        text-align: center;
+        margin-bottom: var(--m-2-5);
+    }
+    .experience .section-title.padd-15 {
+        margin-top: 50px; /* Adjust the value as needed */
+    }
+    .experience-item {
+        flex: 0 0 100%;
+        max-width: 100%;
+        margin-bottom: 90px;
+        text-align: center; /* Align text to the left */
+    }
+    .experience-item .icon {
+        font-size: 4rem; /* Adjust the size of the icon */
+        margin-bottom: 15px; /* Adjust margin as needed */
+    }
+    .experience-item h1 {
+        margin-top: 10px; /* Adjust margin as needed */
+        font-size: 1.5rem; /* Adjust font size as needed */
+        text-align: left; /* Align text to the left */
+    }
+    .experience-item p {
+        margin-top: 10px; /* Adjust margin as needed */
+        font-size: 1rem; /* Adjust font size as needed */
+        text-align: left; /* Align text to the left */
+    }
+    .experience-item .btn {
+        margin-top: 10px; /* Adjust margin as needed */
+        padding: 10px 20px; /* Adjust padding as needed */
+        font-size: 1rem; /* Adjust font size as needed */
     }
      /* Footer styles */
      footer {

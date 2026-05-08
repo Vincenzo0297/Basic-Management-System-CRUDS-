@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes, faBars } from '@fortawesome/free-solid-svg-icons';
+import { faTimes, faBars, faCode, faBook, faFootballBall } from '@fortawesome/free-solid-svg-icons';
 import './MainPage.css'; // Import the CSS file for styling
 import { handleNavToggle } from '../Main Page/JavaScript'; // Ensure this path is correct
 
@@ -61,6 +61,58 @@ function MainPage() {
                 </div>
             </div>
         </main>
+
+        <section className="experience" id="experience">
+          <div className="container">
+            <h2 className="section-title padd-15">About NutriTrack</h2>
+              <div className="experience-items row">
+
+                <div className="experience-item padd-15">
+                  <div className="experience-item-inner">
+                    <div className="experience-item-thumbnail">
+                      <FontAwesomeIcon icon={faCode} className="icon" />
+                    </div>
+                    <h1>Our Team</h1>
+                    <p>
+                      Our team is composed of experienced nutritionists, health experts, 
+                      and tech innovators who are deeply committed to your well-being. We bring together 
+                      diverse expertise to create a comprehensive platform that supports your nutritional 
+                      journey and helps you achieve your health goals.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="experience-item padd-15">
+                  <div className="experience-item-inner">
+                    <div className="experience-item-thumbnail">
+                      <FontAwesomeIcon icon={faBook} className="icon" />
+                    </div>
+                    <h1>Our Mission</h1>
+                    <p>
+                      Our mission is to empower individuals to lead healthier, more fulfilling lives 
+                      through personalized nutrition guidance and cutting-edge tracking tools. We strive to make healthy 
+                      eating accessible and enjoyable, providing the resources and support you need to make informed 
+                      dietary choices and sustain long-term wellness.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="experience-item padd-15">
+                  <div className="experience-item-inner">
+                    <div className="experience-item-thumbnail">
+                      <FontAwesomeIcon icon={faFootballBall} className="icon" />
+                    </div>
+                    <h1>Contact Us</h1>
+                    <p>
+                      We'd love to hear from you! Whether you have questions, feedback, or need assistance, our team is here 
+                      to help.
+                    </p>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </section>
+     
 
         <footer>
             <h1>Connect with me</h1>
