@@ -9,6 +9,7 @@ import Registration from './Core-Front-Page/Registration/Registration';
 
 // Core Middle Page
 import User from './Core-Middle-Page/User/User';
+import Logout from './Core-Middle-Page/Logout';
 
 function App() {
   return (
@@ -21,6 +22,10 @@ function App() {
               <Route path="/Registration" element={<Registration />} />
 
               <Route path="/User" element={<User />} />
+              <Route path="/Logout" element={<Logout />} />
+
+              {/* Redirect any unknown routes to the main page */}
+              <Route path="*" element={<Navigate to="/" />} />
           </Routes>
       </Router>
     </UserProvider>

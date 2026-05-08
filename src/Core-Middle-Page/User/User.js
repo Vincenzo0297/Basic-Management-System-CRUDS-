@@ -18,8 +18,7 @@ function User() {
                     <div className="nav-menu" id="nav-menu">
                     {/* ==== NAV LIST ===*/}
                     <ul className="nav-list">
-                        <li className="nav-item"><a href="/mainPage" className="nav-link">Home</a></li>
-                        <li className="nav-item"><a href="" className="nav-link">Logout</a></li>
+                        <li className="nav-item"><a href="/Logout" className="nav-link">Logout</a></li>
                     </ul> 
 
                         {/* ==== NAV CLOSE ===*/}

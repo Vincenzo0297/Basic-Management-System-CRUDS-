@@ -122,7 +122,7 @@ function Registration() {
 
     // Check if the email already exists in the Firestore database
     const dbref = collection(db, 'Auth');
-    const matchEmail = query(dbref, where('email', '==', email));
+    const matchEmail = query(dbref, where('Email', '==', email)); // Create a query to check for existing email addresses in the 'Auth' collection
 
     // Try to fetch documents matching the email and handle registration logic
     try {
@@ -148,7 +148,7 @@ function Registration() {
     } catch (error) {
         alert(error.message);
     }
-  };
+};
 
   // Function to navigate to the appropriate page based on user type
   const navigateToUserTypePage = (UserType) => {
