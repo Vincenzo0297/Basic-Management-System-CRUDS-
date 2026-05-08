@@ -112,7 +112,6 @@ function MainPage() {
           </div>
         </section>
      
-
         <footer>
             <h1>Connect with me</h1>
             <p class="description">
