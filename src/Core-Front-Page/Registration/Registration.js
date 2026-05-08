@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faBars } from '@fortawesome/free-solid-svg-icons';
 import '../Main Page/MainPage.css'; // Import the CSS file for styling
 import './Registration.css'; // Import the CSS file for styling
 import { handleNavToggle } from '../Main Page/JavaScript'; // Ensure this path is correct
 
+import {db} from '../../Firebase/firebase'; // Corrected import path for the Firestore database instance
+import { getDocs, addDoc, collection, where, query } from 'firebase/firestore';
+
 function Registration() {
+  const navigate = useNavigate();
   useEffect(() => {
     handleNavToggle(); // Call the function to initialize navigation toggle functionality
   }, []);
@@ -111,10 +115,49 @@ function Registration() {
   };
 
   // Placeholder registration function
-  const register = () => {
-    if (validationRegistration()) {
-      // Placeholder registration function
-      alert('Not yet ready!');
+  const register = async () => {
+    if (!validationRegistration()) {
+      return;
+    }
+
+    // Check if the email already exists in the Firestore database
+    const dbref = collection(db, 'Auth');
+    const matchEmail = query(dbref, where('email', '==', email));
+
+    // Try to fetch documents matching the email and handle registration logic
+    try {
+      const snapshot = await getDocs(matchEmail);
+      const emailMatchingArray = snapshot.docs.map((doc) => doc.data());
+
+      // If email already exists, show an alert. Otherwise, add the new user to the database and navigate to the appropriate page based on user type.
+      if (emailMatchingArray.length > 0) {
+          alert('This Email Address Already Exists');
+      } else {
+          // Set userType to 'User' directly since it's the only option available in the dropdown
+          const userType = 'User'; // Set userType to PremiumUser directly
+            await addDoc(dbref, {
+                Name: name,
+                Email: email,
+                Password: password,
+                DateOfBirth: dateOfBirth,
+                UserType: userType // Store the userType
+              });
+                alert('Sign Up Successfully');
+                navigateToUserTypePage(userType); // Pass the userType
+        } 
+    } catch (error) {
+        alert(error.message);
+    }
+  };
+
+  // Function to navigate to the appropriate page based on user type
+  const navigateToUserTypePage = (UserType) => {
+    switch (UserType) {
+      case 'User':
+        navigate('/User');
+          break;
+      default:
+          navigate('/');
     }
   };
 
@@ -182,7 +225,7 @@ function Registration() {
                   <p>User Type</p>
                     <select onChange={(e) => setUserType(e.target.value)}>
                       <option value=''>Select User Type</option>
-                      <option value='Customer'>Customer</option>
+                      <option value='User'>User</option>
                       <option value='Admin'>Admin</option>
                     </select>
                 </div>
