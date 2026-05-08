@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes, faBars, faCode, faBook, faFootballBall } from '@fortawesome/free-solid-svg-icons';
+import { faTimes, faBars, faFlagCheckered, faBullseye, faAddressBook  } from '@fortawesome/free-solid-svg-icons';
 import './MainPage.css'; // Import the CSS file for styling
 import { handleNavToggle } from '../Main Page/JavaScript'; // Ensure this path is correct
 
@@ -49,10 +49,10 @@ function MainPage() {
                             <div className="about-text padd-15">    
                                 <h2>Welcome!</h2>
                                 <p>
-                                    You can easily plan and reserve time with your significant other, ensuring those 
-                                    special moments are never missed. Whether it’s a spontaneous date or a planned 
-                                    surprise, our platform helps you prioritize your relationship in a fun and organized way. 
-                                    Start reserving now and make every moment count!
+                                    Our Car Book Management System helps you efficiently organize, track, and manage car bookings with ease. 
+                                    Whether you are handling reservations, customer details, or vehicle availability, the platform provides 
+                                    a simple and reliable way to streamline your operations. Manage bookings effortlessly and keep your 
+                                    car rental process running smoothly.
                                 </p>
                             </div>
                         </div>
@@ -70,14 +70,14 @@ function MainPage() {
                 <div className="experience-item padd-15">
                   <div className="experience-item-inner">
                     <div className="experience-item-thumbnail">
-                      <FontAwesomeIcon icon={faCode} className="icon" />
+                      <FontAwesomeIcon icon={faFlagCheckered} className="icon" />
                     </div>
                     <h1>Our Team</h1>
                     <p>
-                      Our team is composed of experienced nutritionists, health experts, 
-                      and tech innovators who are deeply committed to your well-being. We bring together 
-                      diverse expertise to create a comprehensive platform that supports your nutritional 
-                      journey and helps you achieve your health goals.
+                      Our team consists of dedicated developers, system administrators, and customer support professionals 
+                      working together to deliver an efficient Car Book Management System. With expertise in vehicle management, 
+                      booking solutions, and technology innovation, we aim to provide a smooth and reliable experience for both 
+                      customers and administrators.
                     </p>
                   </div>
                 </div>
@@ -85,14 +85,13 @@ function MainPage() {
                 <div className="experience-item padd-15">
                   <div className="experience-item-inner">
                     <div className="experience-item-thumbnail">
-                      <FontAwesomeIcon icon={faBook} className="icon" />
+                      <FontAwesomeIcon icon={faBullseye} className="icon" />
                     </div>
                     <h1>Our Mission</h1>
                     <p>
-                      Our mission is to empower individuals to lead healthier, more fulfilling lives 
-                      through personalized nutrition guidance and cutting-edge tracking tools. We strive to make healthy 
-                      eating accessible and enjoyable, providing the resources and support you need to make informed 
-                      dietary choices and sustain long-term wellness.
+                      Our mission is to simplify and modernize vehicle booking management through an efficient and user-friendly 
+                      Car Book Management System. We strive to provide reliable tools that help businesses and customers manage 
+                      reservations, track vehicle availability, and streamline daily operations with ease and convenience.
                     </p>
                   </div>
                 </div>
@@ -100,12 +99,12 @@ function MainPage() {
                 <div className="experience-item padd-15">
                   <div className="experience-item-inner">
                     <div className="experience-item-thumbnail">
-                      <FontAwesomeIcon icon={faFootballBall} className="icon" />
+                      <FontAwesomeIcon icon={faAddressBook } className="icon" />
                     </div>
                     <h1>Contact Us</h1>
                     <p>
-                      We'd love to hear from you! Whether you have questions, feedback, or need assistance, our team is here 
-                      to help.
+                        We’re here to assist you with any questions, support requests, or feedback regarding our Car Book Management System. 
+                        Whether you need help with bookings, vehicle management, or account-related concerns, our team is always ready to help.
                     </p>
                   </div>
                 </div>

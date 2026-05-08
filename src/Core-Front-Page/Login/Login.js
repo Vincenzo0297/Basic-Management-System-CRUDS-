@@ -12,10 +12,12 @@ function Login() {
     handleNavToggle(); // Call the function to initialize navigation toggle functionality
   }, []);
 
+  // State variables for form fields
   const [email, setEmail] = useState('');
-  const [showPassword, setShowPassword] = useState(false);  
+  const [showPassword, setShowPassword] = useState(false); // State variable to toggle password visibility 
   const [password, setPassword] = useState('');
   
+  // State variables for validation errors
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
 
@@ -49,15 +51,17 @@ function Login() {
     return isValid;
   };
 
+  // Function to toggle password visibility
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
+
+  // Placeholder login function
   const login = () => {
     if (validationLogin()) {
       // Placeholder login function
       alert('Login successful!');
     }
-  };
-
-  const togglePasswordVisibility = () => {
-    setShowPassword((prev) => !prev);
   };
 
   return (

@@ -11,20 +11,24 @@ function Registration() {
     handleNavToggle(); // Call the function to initialize navigation toggle functionality
   }, []);
 
+  // State variables for form fields
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [dateOfBirth, setDateOfBirth] = useState('');
-  const [gender, setGender] = useState('');
+  const [userType, setUserType] = useState('');
   
+  // State variables for validation errors
   const [nameError, setNameError] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [dateOfBirthError, setDateOfBirthError] = useState('');
 
+  // Validation function for registration form
   const validationRegistration = () => {
     let isValid = true;
 
+    // Name validation
     const namePattern = /^[a-zA-Z\s]+$/; // Only letters and spaces allowed
     if (name.trim() === '') {
         setNameError('Name is required');
@@ -53,9 +57,9 @@ function Registration() {
         setEmailError('');
     }
 
-    const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/; // Minimum 6 characters, at least one letter and one number
     // Password validation
-      if (password.trim() === '') {
+    const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/; // Minimum 6 characters, at least one letter and one number
+    if (password.trim() === '') {
         setPasswordError('Password is required');
         isValid = false;
     } else if (!passwordPattern.test(password)) {
@@ -65,6 +69,7 @@ function Registration() {
         setPasswordError('');
     }
 
+    // Date of Birth validation
     const dateOfBirthPattern = /^\d{4}-\d{2}-\d{2}$/;
     if (dateOfBirth.trim() === '') {
         setDateOfBirthError('Date of Birth is required');
@@ -85,6 +90,7 @@ function Registration() {
             let age = today.getFullYear() - birthDate.getFullYear();
             const monthDiff = today.getMonth() - birthDate.getMonth();
 
+            // Adjust age if the birth month and day haven't occurred yet this year
             if (
                 monthDiff < 0 ||
                 (monthDiff === 0 && today.getDate() < birthDate.getDate())
@@ -104,6 +110,7 @@ function Registration() {
     return isValid;
   };
 
+  // Placeholder registration function
   const register = () => {
     if (validationRegistration()) {
       // Placeholder registration function
@@ -172,11 +179,11 @@ function Registration() {
                 </div>
 
                 <div className='box'>
-                  <p>Gender</p>
-                    <select>
-                      <option value=''>Select your Gender</option>
-                      <option value='Male'>Male</option>
-                      <option value='Female'>Female</option>
+                  <p>User Type</p>
+                    <select onChange={(e) => setUserType(e.target.value)}>
+                      <option value=''>Select User Type</option>
+                      <option value='Customer'>Customer</option>
+                      <option value='Admin'>Admin</option>
                     </select>
                 </div>
                 <button onClick={register}>Create Account</button>
