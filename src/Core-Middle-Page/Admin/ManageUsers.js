@@ -5,6 +5,7 @@ import { collection, getDocs } from 'firebase/firestore';
 
 import { db } from '../../Firebase/firebase'; // Adjust path correctly
 import { handleNavToggle } from '../../Core-Front-Page/Main Page/JavaScript';
+import { deleteDoc, doc } from 'firebase/firestore';
 
 import './Admin.css';
 
@@ -12,7 +13,7 @@ function ManageUsers() {
     useEffect(() => {
         handleNavToggle();
         fetchUsers();
-    }, []);
+}, []);
 
     const [users, setUsers] = useState([]); // State to hold the list of users
     
@@ -49,6 +50,17 @@ function ManageUsers() {
         }
     };
 
+    // Handle user deletion
+    const handleDelete = async (userId) => {
+        try {
+            await deleteDoc(doc(db, "Auth", userId));
+            alert("User deleted");
+            window.location.reload(); // Refresh the page to reflect the changes
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     return (
         <div>
             <header className="header" id="header">
@@ -56,8 +68,6 @@ function ManageUsers() {
                     <div className="nav-menu" id="nav-menu">
                         <ul className="nav-list">
                             <li className="nav-item"><a href="/Admin" className="nav-link">Home Page</a></li>
-                            <li className="nav-item"><a href="/" className="nav-link">Profile</a></li>
-                            <li className="nav-item"><a href="/Reservations" className="nav-link">Reservations</a></li>
                             <li className="nav-item"><a href="/Logout" className="nav-link">Logout</a></li>
                         </ul>
 
@@ -88,6 +98,7 @@ function ManageUsers() {
                                         <th>User ID</th>
                                         <th>Name</th>
                                         <th>Email</th>
+                                        <th>User Type</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -99,10 +110,11 @@ function ManageUsers() {
                                                 <td>{indexOfFirstUser + index + 1}</td>
                                                 <td>{user.Name}</td>
                                                 <td>{user.Email}</td>
+                                                <td>{user.UserType}</td>
                                                 <td>
                                                     <div className="manage-users-btn">
                                                         <button className="btn btn-primary" onClick={() => window.location.href = `/EditUser/${user.id}`}> Edit</button>
-                                                        <button className="btn btn-danger" onClick={() => window.location.href = `/DeleteUser/${user.id}`}> Delete </button>
+                                                        <button className="btn btn-danger" onClick={() => handleDelete(user.id)}> Delete </button>
                                                     </div>
                                                 </td>
                                             </tr>

@@ -12,7 +12,7 @@ import { getDocs, addDoc, collection, where, query } from 'firebase/firestore'; 
 function AddUser() {
   useEffect(() => {
     handleNavToggle(); // Call the function to initialize navigation toggle functionality
-  }, []);
+}, []);
 
   // Initialize the navigate function for programmatic navigation
   const navigate = useNavigate(); 
@@ -145,6 +145,7 @@ function AddUser() {
                 UserType: userType // Store the userType
               });
             alert('Add User Successfully');
+            window.location.reload(); // Refresh the page to reflect the changes
         } 
     } catch (error) {
         alert(error.message);
@@ -162,9 +163,7 @@ function AddUser() {
               {/* ==== NAV LIST ===*/}
                 <ul className="nav-list">
                   <li className="nav-item"><a href="/Admin" className="nav-link">Home Page</a></li>
-                  <li className="nav-item"><a href="/" className="nav-link">Profile</a></li>
                   <li className="nav-item"><a href="/ManageUsers" className="nav-link">Manage Users</a></li>
-                  <li className="nav-item"><a href="/" className="nav-link">Reservations</a></li>
                   <li className="nav-item"><a href="/Logout" className="nav-link">Logout</a></li>
                 </ul> 
 

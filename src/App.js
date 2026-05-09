@@ -5,7 +5,10 @@ import { UserProvider } from './Firebase/Usercontent'; // Import the UserProvide
 // Core Front Page
 import MainPage from './Core-Front-Page/Main Page/MainPage';
 import Login from './Core-Front-Page/Login/Login';
+
+// Components
 import AddUser from './Components/AddUser';
+import EditUser from './Components/EditUser';
 
 // Core Middle Page Admin
 import Admin from './Core-Middle-Page/Admin/Admin'; 
@@ -25,6 +28,7 @@ function App() {
               <Route path="/MainPage" element={<MainPage />} />
               <Route path="/Login" element={<Login />} />
               <Route path="/AddUser" element={<AddUser />} />
+              <Route path="/EditUser/:id" element={<EditUser />} />
 
               <Route path="/Admin" element={<Admin />} />
               <Route path="/ManageUsers" element={<ManageUsers />} />

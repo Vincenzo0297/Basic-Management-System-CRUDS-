@@ -20,7 +20,6 @@ return (
                     <ul className="nav-list">
                         <li className="nav-item"><a href="/" className="nav-link">Profile</a></li>
                         <li className="nav-item"><a href="/ManageUsers" className="nav-link">Manage Users</a></li>
-                        <li className="nav-item"><a href="/Reservations" className="nav-link">Reservations</a></li>
                         <li className="nav-item"><a href="/Logout" className="nav-link">Logout</a></li>
                     </ul> 
 
