@@ -1,91 +1,146 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes, faBars} from '@fortawesome/free-solid-svg-icons';
-import { handleNavToggle } from '../../Core-Front-Page/Main Page/JavaScript'; // Ensure this path is correct
-//admin style
-import './Admin.css'; 
+import { faTimes, faBars } from '@fortawesome/free-solid-svg-icons';
+import { collection, getDocs } from 'firebase/firestore';
+
+import { db } from '../../Firebase/firebase'; // Adjust path correctly
+import { handleNavToggle } from '../../Core-Front-Page/Main Page/JavaScript';
+
+import './Admin.css';
 
 function ManageUsers() {
     useEffect(() => {
-        handleNavToggle(); // Call the function to initialize navigation toggle functionality
-}, []);
+        handleNavToggle();
+        fetchUsers();
+    }, []);
 
-return (
-    <div>
-        <header className="header" id="header">
-            {/* ==== NAV ===*/}
-            <nav className="nav container">
-  
-                {/* ==== NAV MENU ===*/}
-                <div className="nav-menu" id="nav-menu">
-                    {/* ==== NAV LIST ===*/}
-                    <ul className="nav-list">
-                        <li className="nav-item"><a href="/Admin" className="nav-link">Home Page</a></li>
-                        <li className="nav-item"><a href="/" className="nav-link">Profile</a></li>
-                        <li className="nav-item"><a href="/Reservations" className="nav-link">Reservations</a></li>
-                        <li className="nav-item"><a href="/Logout" className="nav-link">Logout</a></li>
-                    </ul> 
-  
-                    {/* ==== NAV CLOSE ===*/}
-                    <div className="nav-close" id="nav-close">
-                        <FontAwesomeIcon icon={faTimes} />
+    const [users, setUsers] = useState([]); // State to hold the list of users
+    
+    // Pagination state and logic
+    const [currentPage, setCurrentPage] = useState(1); // State to track the current page
+    const usersPerPage = 5; // Number of users to display per page
+    const indexOfLastUser = currentPage * usersPerPage; // Calculate the index of the last user on the current page
+    const indexOfFirstUser = indexOfLastUser - usersPerPage; // Calculate the index of the first user on the current page
+    // Slice the users array to get the users for the current page
+    const currentUsers = users.slice(
+        indexOfFirstUser,
+        indexOfLastUser
+    );
+
+    const totalPages = Math.ceil(users.length / usersPerPage); // Calculate the total number of pages based on the total number of users and users per page
+
+    // Fetch users from Firestore
+    const fetchUsers = async () => {
+        try {
+            // Assuming users are stored in a collection named "Auth"
+            const querySnapshot = await getDocs(collection(db, "Auth"));
+            
+            // Map through the documents and extract user data
+            const usersData = querySnapshot.docs.map(doc => {
+            return {
+                id: doc.id,
+                ...doc.data()
+            };
+        });
+            // Update the state with the fetched users
+            setUsers(usersData);
+        } catch (error) {
+            console.error("Error fetching users:", error);
+        }
+    };
+
+    return (
+        <div>
+            <header className="header" id="header">
+                <nav className="nav container">
+                    <div className="nav-menu" id="nav-menu">
+                        <ul className="nav-list">
+                            <li className="nav-item"><a href="/Admin" className="nav-link">Home Page</a></li>
+                            <li className="nav-item"><a href="/" className="nav-link">Profile</a></li>
+                            <li className="nav-item"><a href="/Reservations" className="nav-link">Reservations</a></li>
+                            <li className="nav-item"><a href="/Logout" className="nav-link">Logout</a></li>
+                        </ul>
+
+                        <div className="nav-close" id="nav-close">
+                            <FontAwesomeIcon icon={faTimes} />
+                        </div>
+                    </div>
+
+                    <div className="nav-btn">
+                        <div className="nav-toggle" id="nav-toggle">
+                            <FontAwesomeIcon icon={faBars} />
+                        </div>
+                    </div>
+                </nav>
+            </header>
+
+            <main className="manage-users section">
+                <div className="container">
+                    <div className="manage-users-content padd-15">
+                        <div className="table-responsive">
+                            <div className="manage-users-btn">
+                                <button className="btn btn-success" onClick={() => window.location.href = '/AddUser'}>Add User</button>
+                            </div>
+
+                            <table className="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>User ID</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    {currentUsers.length > 0 ? (
+                                        currentUsers.map((user, index) => (
+                                            <tr key={user.id}>
+                                                <td>{indexOfFirstUser + index + 1}</td>
+                                                <td>{user.Name}</td>
+                                                <td>{user.Email}</td>
+                                                <td>
+                                                    <div className="manage-users-btn">
+                                                        <button className="btn btn-primary" onClick={() => window.location.href = `/EditUser/${user.id}`}> Edit</button>
+                                                        <button className="btn btn-danger" onClick={() => window.location.href = `/DeleteUser/${user.id}`}> Delete </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        ))
+                                    ) : (
+                                        <tr>
+                                            <td colSpan="4" className="text-center">
+                                                No users found.
+                                            </td>
+                                        </tr>
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div className="pagination">
+                            <div className="manage-users-btn">
+                                <button disabled={currentPage === 1} onClick={() => setCurrentPage(currentPage - 1)} className="btn btn-secondary">Previous</button>
+                                <button disabled={currentPage === totalPages} onClick={() => setCurrentPage(currentPage + 1)}className="btn btn-secondary">Next</button>
+                                {/* PAGE INDICATOR */}
+                                <span className="page-info"> Page {currentPage} of {totalPages} </span>     
+                            </div>
+                        </div>
                     </div>
                 </div>
-  
-                {/* ==== NAV BUTTON ===*/}
-                <div className="nav-btn">
-                    {/* ==== TOGGLE BUTTON ===*/}
-                    <div className="nav-toggle" id="nav-toggle">
-                        <FontAwesomeIcon icon={faBars} />
-                    </div>
-                </div>
-            </nav>
-        </header>
+            </main>
 
-        <main className="manage-users section" id="#">
-            <div className="container">
-                <div className="manage-users-content padd-15">
-                    <div className = "table-responsive">
-                        <table className = "table table-bordered">
-                            <thead>
-                                <div className="manage-users-btn">
-                                   <a href="/AddUser" className="btn btn-primary">Add User</a>
-                                </div>
-                                <tr>
-                                    <th>User ID</th>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>John Doe</td>
-                                    <td>john.doe@example.com</td>
-                                    <td>
-                                        <div className="manage-users-btn">
-                                            <button className="btn btn-primary">Edit</button>
-                                            <button className="btn btn-danger">Delete</button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>   
-                    </div>           
-                </div>            
-            </div>
-        </main>
-
-        <footer>
-            <h1>Connect with me</h1>
-                <p class="description">
-                    Stay updated and never miss out on the latest reservations and romantic ideas! <br></br>
+            <footer>
+                <h1>Connect with me</h1>
+                <p className="description">
+                    Stay updated and never miss out on the latest reservations and romantic ideas!
+                    <br />
                     Follow me on social media for tips, inspiration, and exclusive offers.
                 </p>
+
                 <p>© Copyright: Foolish Developer</p>
-        </footer>
-    </div>
+            </footer>
+        </div>
     );
 }
 

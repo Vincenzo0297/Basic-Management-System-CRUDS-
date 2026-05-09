@@ -59,7 +59,7 @@ function MainPage() {
 
           <section className="experience" id="experience">
             <div className="container">
-              <h2 className="section-title padd-15">About NutriTrack</h2>
+              <h2 className="section-title padd-15">About Us</h2>
                 <div className="experience-items row">
                   <div className="experience-item padd-15">
                     <div className="experience-item-inner">
