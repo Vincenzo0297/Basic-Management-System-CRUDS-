@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faBars} from '@fortawesome/free-solid-svg-icons';
+
+import './Admin.css';
 import { handleNavToggle } from '../../Core-Front-Page/Main Page/JavaScript'; // Ensure this path is correct
 
 function Admin() {
@@ -18,7 +20,7 @@ return (
                 <div className="nav-menu" id="nav-menu">
                     {/* ==== NAV LIST ===*/}
                     <ul className="nav-list">
-                        <li className="nav-item"><a href="/" className="nav-link">Profile</a></li>
+                        <li className="nav-item"><a href="/Profile" className="nav-link">Profile</a></li>
                         <li className="nav-item"><a href="/ManageUsers" className="nav-link">Manage Users</a></li>
                         <li className="nav-item"><a href="/Logout" className="nav-link">Logout</a></li>
                     </ul> 

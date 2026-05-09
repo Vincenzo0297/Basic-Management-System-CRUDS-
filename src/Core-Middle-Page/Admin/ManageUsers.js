@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faBars } from '@fortawesome/free-solid-svg-icons';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
 
 import { db } from '../../Firebase/firebase'; // Adjust path correctly
 import { handleNavToggle } from '../../Core-Front-Page/Main Page/JavaScript';
-import { deleteDoc, doc } from 'firebase/firestore';
 
 import './Admin.css';
 
@@ -35,9 +34,12 @@ function ManageUsers() {
         try {
             // Assuming users are stored in a collection named "Auth"
             const querySnapshot = await getDocs(collection(db, "Auth"));
-            
+
+            // only users with UserType "User" will be displayed in the ManageUsers page
+            const filteredDocs = querySnapshot.docs.filter(doc => doc.data().UserType === "User");
+
             // Map through the documents and extract user data
-            const usersData = querySnapshot.docs.map(doc => {
+            const usersData = filteredDocs.map(doc => {
             return {
                 id: doc.id,
                 ...doc.data()
@@ -68,6 +70,7 @@ function ManageUsers() {
                     <div className="nav-menu" id="nav-menu">
                         <ul className="nav-list">
                             <li className="nav-item"><a href="/Admin" className="nav-link">Home Page</a></li>
+                            <li className="nav-item"><a href="/Profile" className="nav-link">Profile</a></li>
                             <li className="nav-item"><a href="/Logout" className="nav-link">Logout</a></li>
                         </ul>
 

@@ -14,8 +14,12 @@ import EditUser from './Components/EditUser';
 import Admin from './Core-Middle-Page/Admin/Admin'; 
 import ManageUsers from './Core-Middle-Page/Admin/ManageUsers';
 
+
 // Core Middle Page User
 import User from './Core-Middle-Page/User/User';
+
+// Common
+import AdminProfile from '../src/Core-Middle-Page/Admin/AdminProfile';
 import Logout from './Core-Middle-Page/Logout';
 
 
@@ -34,6 +38,9 @@ function App() {
               <Route path="/ManageUsers" element={<ManageUsers />} />
 
               <Route path="/User" element={<User />} />
+
+
+              <Route path="/Profile" element={<AdminProfile />} />
               <Route path="/Logout" element={<Logout />} />
 
               {/* Redirect any unknown routes to the main page */}

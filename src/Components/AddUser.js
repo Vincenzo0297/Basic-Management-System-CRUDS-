@@ -136,13 +136,16 @@ function AddUser() {
           alert('This Email Address Already Exists');
       } else {
           // Set userType to 'User' directly since it's the only option available in the dropdown
-          const userType = 'User'; // Set userType to PremiumUser directly
+
+          //set user type to user or admin based on the selection in the dropdown
+          const userTypeValue = userType === 'Admin' ? 'Admin' : 'User'; // Default to 'User' if not 'Admin'
+
             await addDoc(dbref, {
                 Name: name,
                 Email: email,
                 Password: password,
                 DateOfBirth: dateOfBirth,
-                UserType: userType // Store the userType
+                UserType: userTypeValue // Store the userType
               });
             alert('Add User Successfully');
             window.location.reload(); // Refresh the page to reflect the changes
@@ -163,6 +166,7 @@ function AddUser() {
               {/* ==== NAV LIST ===*/}
                 <ul className="nav-list">
                   <li className="nav-item"><a href="/Admin" className="nav-link">Home Page</a></li>
+                  <li className="nav-item"><a href="/Profile" className="nav-link">Profile</a></li>
                   <li className="nav-item"><a href="/ManageUsers" className="nav-link">Manage Users</a></li>
                   <li className="nav-item"><a href="/Logout" className="nav-link">Logout</a></li>
                 </ul> 

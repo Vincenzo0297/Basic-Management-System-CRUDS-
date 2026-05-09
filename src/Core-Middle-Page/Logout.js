@@ -10,8 +10,7 @@ const Logout = () => {
     // Use useEffect to perform the logout action when the component mounts
     useEffect(() => {
         setUser(null); // Clear the user context
-        navigate('/login', { replace: true });
-        window.history.pushState(null, '', window.location.href); // Prevent back navigation
+        navigate('/login', { replace: true }); // Redirect to the login page
         alert("You have been logged out.");
     }, [setUser, navigate]);
 
