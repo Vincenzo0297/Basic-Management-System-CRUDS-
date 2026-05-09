@@ -12,6 +12,7 @@ const Logout = () => {
         setUser(null); // Clear the user context
         navigate('/login', { replace: true });
         window.history.pushState(null, '', window.location.href); // Prevent back navigation
+        alert("You have been logged out.");
     }, [setUser, navigate]);
 
     return null;

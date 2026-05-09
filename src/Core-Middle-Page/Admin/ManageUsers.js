@@ -98,6 +98,7 @@ function ManageUsers() {
                                         <th>User ID</th>
                                         <th>Name</th>
                                         <th>Email</th>
+                                        <th>Date Of Birth</th>
                                         <th>User Type</th>
                                         <th>Actions</th>
                                     </tr>
@@ -110,6 +111,7 @@ function ManageUsers() {
                                                 <td>{indexOfFirstUser + index + 1}</td>
                                                 <td>{user.Name}</td>
                                                 <td>{user.Email}</td>
+                                                <td>{user.DateOfBirth}</td>
                                                 <td>{user.UserType}</td>
                                                 <td>
                                                     <div className="manage-users-btn">
