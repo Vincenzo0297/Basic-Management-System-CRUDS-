@@ -83,13 +83,13 @@ function Login() {
 
         // Check if any matching user is found
         if (matchingUsers.length > 0) {
-          // Set the user in context
+          // Set the user in context and localStorage
           const user = matchingUsers[0];
           setUser(user);
+          localStorage.setItem('user', JSON.stringify(user));
           alert('Login Successfully');
           // Navigate based on user type
           navigateToUserTypePage(user.UserType);
-      
         } else {
           alert('Invalid email or password');
         }

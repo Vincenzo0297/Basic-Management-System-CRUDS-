@@ -51,7 +51,7 @@ function ManageUsers() {
             console.error("Error fetching users:", error);
         }
     };
-
+    
     // Handle user deletion
     const handleDelete = async (userId) => {
         try {
@@ -93,6 +93,10 @@ function ManageUsers() {
                         <div className="table-responsive">
                             <div className="manage-users-btn">
                                 <button className="btn btn-success" onClick={() => window.location.href = '/AddUser'}>Add User</button>
+                            </div>
+
+                            <div className='search user name'>
+
                             </div>
 
                             <table className="table table-bordered">
