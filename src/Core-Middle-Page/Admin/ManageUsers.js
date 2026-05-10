@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faBars } from '@fortawesome/free-solid-svg-icons';
-import { collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
+import { collection, getDocs, deleteDoc, doc, where, query } from 'firebase/firestore';
 
 import { db } from '../../Firebase/firebase'; // Adjust path correctly
 import { handleNavToggle } from '../../Core-Front-Page/Main Page/JavaScript';
@@ -15,6 +15,9 @@ function ManageUsers() {
 }, []);
 
     const [users, setUsers] = useState([]); // State to hold the list of users
+
+    // Search for user
+    const [searchQuery, setSearchQuery] = useState(''); 
     
     // Pagination state and logic
     const [currentPage, setCurrentPage] = useState(1); // State to track the current page
@@ -51,7 +54,41 @@ function ManageUsers() {
             console.error("Error fetching users:", error);
         }
     };
-    
+
+    // Search for user 
+    const handleSearch = async (event) => {
+        const value = event.target.value;
+
+        setSearchQuery(value);
+
+        try {
+            const usersRef = collection(db, "Auth");
+
+            const q = query(
+                usersRef,
+                where("Name", ">=", value),
+                where("Name", "<=", value + "\uf8ff")
+            );
+
+            const querySnapshot = await getDocs(q);
+
+            // only User type users
+            const filteredDocs = querySnapshot.docs.filter(
+                doc => doc.data().UserType === "User"
+            );
+
+            const results = filteredDocs.map(doc => ({
+                id: doc.id,
+                ...doc.data(),
+            }));
+
+            setUsers(results);
+
+            } catch (error) {
+                console.error("Search error:", error);
+            }
+    };
+
     // Handle user deletion
     const handleDelete = async (userId) => {
         try {
@@ -92,8 +129,15 @@ function ManageUsers() {
                         <div className="table-responsive">
                             <div className="manage-users-btn">
                                 <button className="btn btn-success" onClick={() => window.location.href = '/AddUser'}>Add User</button>
+                                   <input
+                                    type="text"
+                                    className="search-input"
+                                    placeholder="Search..."
+                                    value={searchQuery}
+                                    onChange={handleSearch}
+                                />
                             </div>
-
+                            
                             <table className="table table-bordered">
                                 <thead>
                                     <tr>
@@ -125,7 +169,7 @@ function ManageUsers() {
                                         ))
                                     ) : (
                                         <tr>
-                                            <td colSpan="4" className="text-center">
+                                            <td colSpan="6" className="text-center">
                                                 No users found.
                                             </td>
                                         </tr>

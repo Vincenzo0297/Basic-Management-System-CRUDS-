@@ -100,6 +100,15 @@ table th {
     color: #666;
     max-width: 600px;
 }
-
+.search-box {
+    position: relative;
+    width: 280px;
+}
+.search-input {
+    width: 20%;
+    border-radius: 10px;
+    font-size: 15px;
+    background: white;
+}
 
 
