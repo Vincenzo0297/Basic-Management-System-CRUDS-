@@ -70,7 +70,6 @@ function ManageUsers() {
                     <div className="nav-menu" id="nav-menu">
                         <ul className="nav-list">
                             <li className="nav-item"><a href="/Admin" className="nav-link">Home Page</a></li>
-                            <li className="nav-item"><a href="/Profile" className="nav-link">Profile</a></li>
                             <li className="nav-item"><a href="/Logout" className="nav-link">Logout</a></li>
                         </ul>
 
@@ -93,10 +92,6 @@ function ManageUsers() {
                         <div className="table-responsive">
                             <div className="manage-users-btn">
                                 <button className="btn btn-success" onClick={() => window.location.href = '/AddUser'}>Add User</button>
-                            </div>
-
-                            <div className='search user name'>
-
                             </div>
 
                             <table className="table table-bordered">
