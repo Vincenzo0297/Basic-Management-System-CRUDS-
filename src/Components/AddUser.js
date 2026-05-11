@@ -30,8 +30,8 @@ function AddUser() {
   const [passwordError, setPasswordError] = useState('');
   const [dateOfBirthError, setDateOfBirthError] = useState('');
 
-  // Validation function for registration form
-  const validationRegistration = () => {
+  // Validation function for Add User form
+  const validationAddUser = () => {
     let isValid = true;
 
     // Name validation
@@ -117,8 +117,8 @@ function AddUser() {
   };
 
   // Placeholder registration function
-  const register = async () => {
-    if (!validationRegistration()) {
+  const AddUser = async () => {
+    if (!validationAddUser()) {
       return;
     }
 
@@ -126,7 +126,7 @@ function AddUser() {
     const dbref = collection(db, 'Auth');
     const matchEmail = query(dbref, where('Email', '==', email)); // Create a query to check for existing email addresses in the 'Auth' collection
 
-    // Try to fetch documents matching the email and handle registration logic
+    // Try to fetch documents matching the email and handle Add User logic
     try {
       const snapshot = await getDocs(matchEmail);
       const emailMatchingArray = snapshot.docs.map((doc) => doc.data());
@@ -222,7 +222,7 @@ function AddUser() {
                       <option value='Admin'>Admin</option>
                     </select>
                 </div>
-                <button onClick={register}>Create Account</button>
+                <button onClick={AddUser}>Create Account</button>
                 <button onClick={() => window.location.href = '/ManageUsers'}>Back</button>
             </div>
         </div>
