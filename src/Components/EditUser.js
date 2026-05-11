@@ -19,9 +19,8 @@ function EditUser() {
 
     const [users, setUsers] = useState([]); // State to hold the list of users
 
-  // Initialize the navigate function for programmatic navigation
+    // Initialize the navigate function for programmatic navigation
     const navigate = useNavigate(); 
-
 
     // State variables for form fields
     const [name, setName] = useState('');
