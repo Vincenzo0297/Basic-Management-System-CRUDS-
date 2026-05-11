@@ -2,26 +2,32 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faBars } from '@fortawesome/free-solid-svg-icons';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import '../Core-Front-Page/Main Page/MainPage.css'; // Import the CSS file for styling
 import './Components.css'; // Import the CSS file for styling
 import { handleNavToggle } from '../Core-Front-Page/Main Page/JavaScript'; // Ensure this path is correct
 
 import {db} from '../Firebase/firebase'; // Corrected import path for the Firestore database instance
-import { doc, updateDoc} from 'firebase/firestore'; // Import necessary Firestore functions for querying and adding documents
+import { collection, doc, getDoc, setUsers, updateDoc} from 'firebase/firestore'; // Import necessary Firestore functions for querying and adding documents
 
 function EditUser() {
+  const { id } = useParams();
   useEffect(() => {
     handleNavToggle(); // Call the function to initialize navigation toggle functionality
-}, []);
+    fetchUser();
+}, [id]);
+
+    const [users, setUsers] = useState([]); // State to hold the list of users
 
   // Initialize the navigate function for programmatic navigation
     const navigate = useNavigate(); 
-    const { id } = useParams();
+
 
     // State variables for form fields
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false); // State variable to toggle password visibility 
     
     // State variables for validation errors
     const [nameError, setNameError] = useState('');
@@ -75,6 +81,27 @@ function EditUser() {
       return isValid;
     };
 
+    // Function to toggle password visibility
+    const togglePasswordVisibility = () => {
+      setShowPassword((prev) => !prev);
+    };
+
+    const fetchUser = async () => {
+        try {
+            const docRef = doc(db, "Auth", id);
+            const docSnap = await getDoc(docRef);
+
+            if (docSnap.exists()) {
+                const userData = docSnap.data();
+                setName(userData.Name);
+                setEmail(userData.Email);
+                setPassword(userData.Password);
+            }
+        } catch (error) {
+            console.error("Error fetching users:", error);
+        }
+    };
+
     const handleUpdate = async () => {
         if (validationUpdate()) {
             try {
@@ -89,7 +116,6 @@ function EditUser() {
                 }
             catch (error) {
                 console.error("Error updating user:", error);
-                alert('Failed to update user. Please try again.');
             }
         }
     };
@@ -131,20 +157,23 @@ function EditUser() {
 
                     <div className='box'>
                         <p>Name</p>
-                        <input type='text' placeholder='Add your Name' onChange={(e) => setName(e.target.value)} />
+                        <input type='text' value={name} onChange={(e) => setName(e.target.value)} />
                         <p style={{ color: 'red' }}>{nameError}</p> {/* Display name validation error */}
                     </div>
                     
                     <div className='box'>
                         <p>Email</p>
-                        <input type='email' placeholder='Add your Email' onChange={(e) => setEmail(e.target.value)} />
+                        <input type='email' value={email} onChange={(e) => setEmail(e.target.value)} />
                         <p style={{ color: 'red' }}>{emailError}</p> {/* Display email validation error */}
                     </div>
 
                     <div className='box'>
                         <p>Password</p>
-                        <input type='password' placeholder='Add your Password' onChange={(e) => setPassword(e.target.value)} />
+                        <input type={showPassword ? 'text' : 'password'} value={password} onChange={(e) => setPassword(e.target.value)} />
                         <p style={{ color: 'red' }}>{passwordError}</p> {/* Display password validation error */}
+                        <span className='toggle-password' onClick={togglePasswordVisibility}>
+                            {showPassword ? <FaEyeSlash /> : <FaEye />} {/* Font Awesome icons */}
+                        </span>
                     </div>
 
                     <button onClick={handleUpdate}>Update User</button>

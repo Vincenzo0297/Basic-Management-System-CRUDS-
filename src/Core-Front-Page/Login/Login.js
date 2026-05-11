@@ -63,39 +63,39 @@ function Login() {
   // Function to toggle password visibility
   const togglePasswordVisibility = () => {
       setShowPassword((prev) => !prev);
-    };
+  };
 
-    const login = async () => {
-      const dbref = collection(db, 'Auth');
+  const login = async () => {
+    const dbref = collection(db, 'Auth');
+    
+    try {
+      const q = query(
+        dbref,
+        where('Email', '==', email),
+        where('Password', '==', password)
+      );
 
-      try {
-        const q = query(
-          dbref,
-          where('Email', '==', email),
-          where('Password', '==', password)
-        );
+      const snapshot = await getDocs(q);
+      const matchingUsers = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data()
+      }));
 
-        const snapshot = await getDocs(q);
-        const matchingUsers = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data()
-        }));
-
-        // Check if any matching user is found
-        if (matchingUsers.length > 0) {
-          // Set the user in context and localStorage
-          const user = matchingUsers[0];
-          setUser(user);
-          localStorage.setItem('user', JSON.stringify(user));
-          alert('Login Successfully');
-          // Navigate based on user type
-          navigateToUserTypePage(user.UserType);
-        } else {
-          alert('Invalid email or password');
-        }
-      } catch (error) {
-        console.error('Error logging in:', error);
+      // Check if any matching user is found
+      if (matchingUsers.length > 0) {
+        // Set the user in context and localStorage
+        const user = matchingUsers[0];
+        setUser(user);
+        localStorage.setItem('user', JSON.stringify(user));
+        alert('Login Successfully');
+        // Navigate based on user type
+        navigateToUserTypePage(user.UserType);
+      } else {
+        alert('Invalid email or password');
       }
+    } catch (error) {
+      console.error('Error logging in:', error);
+    }
   };
 
   const navigateToUserTypePage = (userType) => {
