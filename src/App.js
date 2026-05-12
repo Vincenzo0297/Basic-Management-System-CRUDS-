@@ -9,10 +9,13 @@ import Login from './Core-Front-Page/Login/Login';
 // Components
 import AddUser from './Components/AddUser';
 import EditUser from './Components/EditUser';
+import AddBooking from './Components/AddBooking';
+import EditBooking from './Components/EditBooking';
 
 // Core Middle Page Admin
 import Admin from './Core-Middle-Page/Admin/Admin'; 
 import ManageUsers from './Core-Middle-Page/Admin/ManageUsers';
+import ManageBooking from './Core-Middle-Page/Admin/ManageBooking';
 
 
 // Core Middle Page User
@@ -32,9 +35,13 @@ function App() {
               <Route path="/Login" element={<Login />} />
               <Route path="/AddUser" element={<AddUser />} />
               <Route path="/EditUser/:id" element={<EditUser />} />
+              <Route path="/AddBooking" element={<AddBooking/>} />
+              <Route path="/EditBooking" element={<EditBooking/>} />
+              
 
               <Route path="/Admin" element={<Admin />} />
               <Route path="/ManageUsers" element={<ManageUsers />} />
+              <Route path="/ManageBooking" element={<ManageBooking />} />
 
               <Route path="/User" element={<User />} />
 

@@ -131,6 +131,7 @@ function EditUser() {
                     <ul className="nav-list">
                         <li className="nav-item"><a href="/Admin" className="nav-link">Home Page</a></li>
                         <li className="nav-item"><a href="/ManageUsers" className="nav-link">Manage Users</a></li>
+                        <li className="nav-item"><a href="/ManageBooking" className="nav-link">Manage Booking</a></li>
                         <li className="nav-item"><a href="/Logout" className="nav-link">Logout</a></li>
                     </ul> 
             
