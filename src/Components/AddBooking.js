@@ -72,16 +72,15 @@ function AddBooking() {
                 setAvailabilityError('');
         }
 
-        const CostPerHrPattern = /^[0-9]+$/; // Only numbers allowed
+        const CostPerHrPattern = /^(?!0\d)\d+(\.\d+)?$/;
         if (cost.trim() === '') {
             setCostError('Cost Per Hour is required');
             isValid = false;
         } else if (!CostPerHrPattern.test(cost)) {
-            setCostError('Only numbers are allowed');
+            setCostError('Enter a valid cost');
             isValid = false;
         } else {
-            // Optional: minimum value validation
-            if (parseInt(cost) <= 0) {
+            if (parseFloat(cost) <= 0) {
                 setCostError('Cost Per Hour must be greater than 0');
                 isValid = false;
             } else {
@@ -172,4 +171,5 @@ function AddBooking() {
         </div>
     );
 }
+
 export default AddBooking;
