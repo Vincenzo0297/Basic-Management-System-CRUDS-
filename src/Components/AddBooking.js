@@ -7,12 +7,95 @@ import './Components.css'; // Import the CSS file for styling
 import { handleNavToggle } from '../Core-Front-Page/Main Page/JavaScript'; // Ensure this path is correct
 
 import {db} from '../Firebase/firebase'; // Corrected import path for the Firestore database instance
-import { getDocs, addDoc, collection, where, query } from 'firebase/firestore'; // Import necessary Firestore functions for querying and adding documents
 
 function AddBooking() {
     useEffect(() => {
         handleNavToggle(); // Call the function to initialize navigation toggle functionality
 }, []); 
+
+    const [locationName, setLocationName] = useState('');
+    const [locationDescription, setLocationDescription] = useState('');
+    const [Availability, setAvailability] = useState('');
+    const [cost, setCost] = useState('');
+
+    const [locationNameError, setLocationNameError] = useState('');
+    const [locationDescriptionError, setLocationDescriptionError] = useState('');
+    const [AvailabilityError, setAvailabilityError] = useState('');
+    const [costError, setCostError] = useState('');
+
+    const validateReservation = () => {
+        let isValid = true;
+
+        // Location Name validation
+        const LocationNamePattern = /^[a-zA-Z\s]+$/; // Only letters and spaces allowed
+        if (locationName.trim() === '') {
+            setLocationNameError('Location Name is required');
+            isValid = false;
+        } else if (!LocationNamePattern.test(locationName)) {
+            setLocationNameError('Location Name can only contain letters and spaces');
+            isValid = false;
+        } else {
+            if (locationName.trim().length < 6) {
+                setLocationNameError('Location Name must be at least 6 characters long');
+                isValid = false;
+            } else {
+                setLocationNameError('');
+            }
+        }
+
+        // Location Description validation
+        const LocationDescriptionPattern = /^[a-zA-Z\s]+$/; // Only letters and spaces allowed
+        if (locationDescription.trim() === '') {
+            setLocationDescriptionError('Location Description is required');
+            isValid = false;
+        } else if (!LocationDescriptionPattern.test(locationDescription)) {
+            setLocationDescriptionError('Location Description can only contain letters and spaces');
+            isValid = false;
+        } else {
+            if (locationDescription.trim().length < 6) {
+                setLocationDescriptionError('Location Description must be at least 6 characters long');
+                isValid = false;
+            } else {
+                setLocationDescriptionError('');
+            }
+        }
+
+         // Availability / Capacity validation
+        const AvailabilityPattern = /^[0-9]+$/; // Only numbers allowed
+        if (Availability.trim() === '') {
+                setAvailabilityError('Availability / Capacity is required');
+                isValid = false;
+            } else if (!AvailabilityPattern.test(Availability)) {
+                setAvailabilityError('Only numbers are allowed');
+                isValid = false;
+            } else {
+                setAvailabilityError('');
+        }
+
+        const CostPerHrPattern = /^[0-9]+$/; // Only numbers allowed
+        if (cost.trim() === '') {
+            setCostError('Cost Per Hour is required');
+            isValid = false;
+        } else if (!CostPerHrPattern.test(cost)) {
+            setCostError('Only numbers are allowed');
+            isValid = false;
+        } else {
+            // Optional: minimum value validation
+            if (parseInt(cost) <= 0) {
+                setCostError('Cost Per Hour must be greater than 0');
+                isValid = false;
+            } else {
+                setCostError('');
+            }
+        }
+        return isValid;
+    };
+
+    const AddReservation = async () => {
+        if (!validateReservation()) {
+            return;
+        }
+    }
     
     return (
         <div>
@@ -45,32 +128,35 @@ function AddBooking() {
                 </nav>
             </header>
 
-
             <div className='login-container'>
                 <div className='form'>
                     <h2 className='UserAccount-title'>Add the Reservation</h2>
 
                     <div className='box'>
                         <p>Location Name</p>
-                        <input type='text' placeholder='Add Location Name' />
+                        <input type='text' placeholder='Add Location Name' onChange={(e) => setLocationName(e.target.value)}/>
+                        <p style={{ color: 'red' }}>{locationNameError}</p>
                     </div>
 
                     <div className='box'>
                         <p>Location Description</p>
-                        <textarea type='text' rows={7} cols={40} placeholder='Add Location Description' />
+                        <textarea type='text' rows={7} cols={40} placeholder='Add Location Description' onChange={(e) => setLocationDescription(e.target.value)} />
+                         <p style={{ color: 'red' }}>{locationDescriptionError}</p>
                     </div>
 
                     <div className='box'>
                         <p>Availability / Capacity</p>
-                        <input type='text' placeholder='Add Location Name' />
+                        <input type='text' placeholder='Enter Capacity' value={Availability} onChange={(e) => setAvailability(e.target.value)} />
+                        <p style={{ color: 'red' }}> {AvailabilityError} </p>
                     </div>
                         
                     <div className='box'>
                         <p>Cost per hour</p>
-                         <input type='text' placeholder='Add Price' />
+                         <input type='text' placeholder='Add Price' onChange={(e) => setCost(e.target.value)} />
+                          <p style={{ color: 'red' }}>{costError}</p>
                     </div>
 
-                    <button>Create Reservation</button>
+                    <button onClick={AddReservation}>Create Reservation</button>
                     <button onClick={() => window.location.href = '/ManageBooking'}>Back</button>
                 </div>
             </div>
