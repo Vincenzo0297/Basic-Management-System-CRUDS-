@@ -7,6 +7,7 @@ import './Components.css'; // Import the CSS file for styling
 import { handleNavToggle } from '../Core-Front-Page/Main Page/JavaScript'; // Ensure this path is correct
 
 import {db} from '../Firebase/firebase'; // Corrected import path for the Firestore database instance
+import { addDoc, collection } from 'firebase/firestore';
 
 function AddBooking() {
     useEffect(() => {
@@ -93,6 +94,20 @@ function AddBooking() {
     const AddReservation = async () => {
         if (!validateReservation()) {
             return;
+        }
+
+        const dbref = collection(db, "Reservation");
+        try {
+            await addDoc(dbref, {
+                LocationName: locationName,
+                LocationDescription: locationDescription,
+                space: Availability,
+                money: cost
+            })
+            alert('Add Car Reservation');
+            window.location.reload();
+        } catch (error) {
+            alert(error.message);
         }
     }
     

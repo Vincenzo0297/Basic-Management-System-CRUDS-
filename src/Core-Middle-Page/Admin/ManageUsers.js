@@ -43,11 +43,11 @@ function ManageUsers() {
 
             // Map through the documents and extract user data
             const usersData = filteredDocs.map(doc => {
-            return {
-                id: doc.id,
-                ...doc.data()
-            };
-        });
+                return {
+                    id: doc.id,
+                    ...doc.data()
+                };
+            });
             // Update the state with the fetched users
             setUsers(usersData);
         } catch (error) {
