@@ -102,7 +102,7 @@ function ManageBooking() {
                                             <tr key={reservation.id}>
                                                 <td>{indexOfFirstLocation + index + 1}</td>
                                                 <td>{reservation.LocationName}</td>
-                                                <td>{reservation.locationDescription}</td>
+                                                <td>{reservation.LocationDescription}</td>
                                                 <td>{reservation.space}</td>
                                                 <td>{reservation.money}</td>
                                                 <td>
