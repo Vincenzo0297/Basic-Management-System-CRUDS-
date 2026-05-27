@@ -16,9 +16,6 @@ function ManageBooking() {
 
     const [reservation, setReservation] = useState([]);
 
-    // Search Location
-    const [searchLocation, setSearchLocation] = useState('');
-
     // Pagination state and logic
     const [currentPage, setCurrentPage] = useState(1); // State to track the current page
     const locationPerPage = 5; // Number of users to display per page
@@ -50,6 +47,16 @@ function ManageBooking() {
 
         } catch (error) {
             console.error("Error fetching Location:", error);
+        }
+    };
+
+    const handleLocationDelete = async (reservationId) => {
+        try {
+            await deleteDoc(doc(db, "Reservation", reservationId));
+            alert("Location deleted");
+            window.location.reload();
+        } catch (error) {
+            console.error(error);
         }
     };
 
@@ -108,7 +115,7 @@ function ManageBooking() {
                                                 <td>
                                                     <div className="manage-users-btn">
                                                         <button className="btn btn-primary"> Edit</button>
-                                                        <button className="btn btn-danger"> Delete </button>
+                                                        <button className="btn btn-danger" onClick={() => handleLocationDelete(reservation.id)}> Delete </button>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -124,10 +131,12 @@ function ManageBooking() {
                             </table>
                         </div>
 
-                        <div className="pagination">
+                         <div className="pagination">
                             <div className="manage-users-btn">
-                                <button className="btn btn-secondary">Previous</button>
-                                <button className="btn btn-secondary">Next</button>  
+                                <button disabled={currentPage === 1} onClick={() => setCurrentPage(currentPage - 1)} className="btn btn-secondary">Previous</button>
+                                <button disabled={currentPage === totalPages} onClick={() => setCurrentPage(currentPage + 1)}className="btn btn-secondary">Next</button>
+                                {/* PAGE INDICATOR */}
+                                <span className="page-info"> Page {currentPage} of {totalPages} </span>     
                             </div>
                         </div>
                     </div>
