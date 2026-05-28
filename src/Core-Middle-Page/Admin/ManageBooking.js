@@ -16,6 +16,9 @@ function ManageBooking() {
 
     const [reservation, setReservation] = useState([]);
 
+    // Search for location
+      const [searchQuery, setSearchQuery] = useState(''); 
+
     // Pagination state and logic
     const [currentPage, setCurrentPage] = useState(1); // State to track the current page
     const locationPerPage = 5; // Number of users to display per page
@@ -47,6 +50,35 @@ function ManageBooking() {
 
         } catch (error) {
             console.error("Error fetching Location:", error);
+        }
+    };
+
+   const handleSearch = async (event) => {
+
+        const value = event.target.value;
+        setSearchQuery(value);
+
+        try {
+
+            const reservationRef = collection(db, "Reservation");
+
+            const q = query(
+                reservationRef,
+                where("LocationName", ">=", value),
+                where("LocationName", "<=", value + "\uf8ff")
+            );
+
+            const querySnapshot = await getDocs(q);
+
+            const results = querySnapshot.docs.map((doc) => ({
+                id: doc.id,
+                ...doc.data(),
+            }));
+
+            setReservation(results);
+
+        } catch (error) {
+            console.error(error);
         }
     };
 
@@ -90,6 +122,7 @@ function ManageBooking() {
                         <div className="table-responsive">
                              <div className="manage-users-btn">
                                 <button className="btn btn-success" onClick={() => window.location.href = '/AddBooking'}>Add Booking</button>
+                               <input type="text" className="search-input" placeholder="Search..." value={searchQuery} onChange={handleSearch}/>
                             </div>
                             <table className="table table-bordered">
                                 <thead>

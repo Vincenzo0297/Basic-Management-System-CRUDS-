@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faBars } from '@fortawesome/free-solid-svg-icons';
 import '../Core-Front-Page/Main Page/MainPage.css'; // Import the CSS file for styling
@@ -14,9 +13,6 @@ function AddUser() {
     handleNavToggle(); // Call the function to initialize navigation toggle functionality
 }, []);
 
-  // Initialize the navigate function for programmatic navigation
-  const navigate = useNavigate(); 
-   
   // State variables for form fields
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');

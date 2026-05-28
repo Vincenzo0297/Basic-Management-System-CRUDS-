@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { UserContext } from '../../Firebase/Usercontent';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faBars } from '@fortawesome/free-solid-svg-icons';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
@@ -9,7 +9,7 @@ import './Login.css'; // Import the CSS file for styling
 import { handleNavToggle } from '../Main Page/JavaScript'; // Ensure this path is correct
 
 import {db} from '../../Firebase/firebase'; // Corrected import path for the Firestore database instance
-import { getDocs, addDoc, collection, where, query } from 'firebase/firestore'; // Import necessary Firestore functions for querying and adding documents
+import { getDocs, collection, where, query } from 'firebase/firestore'; // Import necessary Firestore functions for querying and adding documents
 
 function Login() {
   useEffect(() => {

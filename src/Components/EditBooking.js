@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faBars } from '@fortawesome/free-solid-svg-icons';
 import '../Core-Front-Page/Main Page/MainPage.css'; // Import the CSS file for styling
 import './Components.css'; // Import the CSS file for styling
 import { handleNavToggle } from '../Core-Front-Page/Main Page/JavaScript'; // Ensure this path is correct
-
-import {db} from '../Firebase/firebase'; // Corrected import path for the Firestore database instance
-import { getDocs, addDoc, collection, where, query } from 'firebase/firestore'; // Import necessary Firestore functions for querying and adding documents
+// Corrected import path for the Firestore database instance
+// Import necessary Firestore functions for querying and adding documents
 
 function EditBooking() {
     useEffect(() => {

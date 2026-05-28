@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faBars } from '@fortawesome/free-solid-svg-icons';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
@@ -8,7 +8,7 @@ import './Components.css'; // Import the CSS file for styling
 import { handleNavToggle } from '../Core-Front-Page/Main Page/JavaScript'; // Ensure this path is correct
 
 import {db} from '../Firebase/firebase'; // Corrected import path for the Firestore database instance
-import { collection, doc, getDoc, setUsers, updateDoc} from 'firebase/firestore'; // Import necessary Firestore functions for querying and adding documents
+import { doc, getDoc, updateDoc} from 'firebase/firestore'; // Import necessary Firestore functions for querying and adding documents
 
 function EditUser() {
   const { id } = useParams();
@@ -16,8 +16,6 @@ function EditUser() {
     handleNavToggle(); // Call the function to initialize navigation toggle functionality
     fetchUser();
 }, [id]);
-
-    const [users, setUsers] = useState([]); // State to hold the list of users
 
     // Initialize the navigate function for programmatic navigation
     const navigate = useNavigate(); 
