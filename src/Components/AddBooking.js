@@ -15,7 +15,7 @@ function AddBooking() {
 
     const [locationName, setLocationName] = useState('');
     const [locationDescription, setLocationDescription] = useState('');
-    const [capacity, setCapacity] = useState(0);
+    const [capacity] = useState(0);
     const [Availability, setAvailability] = useState('');
     const [cost, setCost] = useState('');
     const [lateCost, setLateCost] = useState('');

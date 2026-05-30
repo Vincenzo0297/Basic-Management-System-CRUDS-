@@ -24,45 +24,11 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false); // State variable to toggle password visibility 
   const [password, setPassword] = useState('');
   
-  // State variables for validation errors
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
-
   const { setUser } = useContext(UserContext);
-
-  const validationLogin = () => {
-    let isValid = true;
-
-    // Email validation
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (email.trim() === '') {
-        setEmailError('Email is required');
-        isValid = false;
-    } else if (!emailPattern.test(email)) {
-        setEmailError('Invalid email address');
-        isValid = false;
-    } else {
-        setEmailError('');
-    }
-
-    // Password validation
-    const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/; // Minimum 6 characters, at least one letter and one number
-    // Password validation
-      if (password.trim() === '') {
-        setPasswordError('Password is required');
-        isValid = false;
-    } else if (!passwordPattern.test(password)) {
-        setPasswordError('Password must contain at least one letter and one number');
-        isValid = false;
-    } else {
-        setPasswordError('');
-    }
-    return isValid;
-  };
 
   // Function to toggle password visibility
   const togglePasswordVisibility = () => {
-      setShowPassword((prev) => !prev);
+    setShowPassword((prev) => !prev);
   };
 
   const login = async () => {
@@ -145,12 +111,10 @@ function Login() {
             <h2>Car Booking System</h2>
               <div className='box'>
                   <input type='email' placeholder='Email' onChange={(e) => setEmail(e.target.value)} />
-                  {emailError && <p className='error'>{emailError}</p>}
               </div>
 
               <div className='box'>
                 <input type={showPassword ? 'text' : 'password'} placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} />
-                {passwordError && <p className='error'>{passwordError}</p>}
                   <span className='toggle-password' onClick={togglePasswordVisibility}>
                     {showPassword ? <FaEyeSlash /> : <FaEye />} {/* Font Awesome icons */}
                   </span>

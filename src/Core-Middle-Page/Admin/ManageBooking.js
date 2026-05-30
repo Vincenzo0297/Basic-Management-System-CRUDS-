@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faBars } from '@fortawesome/free-solid-svg-icons';
-import { FiCopy, FiClipboard } from "react-icons/fi";
-import { collection, getDocs, deleteDoc, doc, where, query, addDoc } from 'firebase/firestore';
+import { collection, getDocs, deleteDoc, doc, where, query } from 'firebase/firestore';
 
 import { db } from '../../Firebase/firebase'; // Adjust path correctly
 import { handleNavToggle } from '../../Core-Front-Page/Main Page/JavaScript';
