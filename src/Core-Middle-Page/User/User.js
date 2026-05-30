@@ -18,7 +18,7 @@ return (
                 <div className="nav-menu" id="nav-menu">
                     {/* ==== NAV LIST ===*/}
                     <ul className="nav-list">
-                        <li className="nav-item"><a href="" className="nav-link">User Page</a></li>
+                        <li className="nav-item"><a href="/UserViewLocation" className="nav-link">View Location</a></li>
                         <li className="nav-item"><a href="/Logout" className="nav-link">Logout</a></li>
                     </ul> 
 

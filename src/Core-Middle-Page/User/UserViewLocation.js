@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faBars } from '@fortawesome/free-solid-svg-icons';
-import { collection, getDocs, deleteDoc, doc, where, query, getDoc } from 'firebase/firestore';
+import { collection, getDocs, where, query } from 'firebase/firestore';
 
 import { db } from '../../Firebase/firebase'; // Adjust path correctly
 import { handleNavToggle } from '../../Core-Front-Page/Main Page/JavaScript';
 
-import './Admin.css';
+import '../Admin/Admin.css';
 
-function ManageBooking() {
+function UserViewLocation() {
     useEffect(() => {
     handleNavToggle(); // Call the function to initialize navigation toggle functionality
     fetchLocation();
@@ -82,24 +82,13 @@ function ManageBooking() {
         }
     };
 
-    const handleLocationDelete = async (reservationId) => {
-        try {
-            await deleteDoc(doc(db, "Reservation", reservationId));
-            alert("Location deleted");
-            window.location.reload();
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
     return (
         <div>
             <header className="header" id="header">
                 <nav className="nav container">
                     <div className="nav-menu" id="nav-menu">
                         <ul className="nav-list">
-                            <li className="nav-item"><a href="/Admin" className="nav-link">Home Page</a></li>
-                            <li className="nav-item"><a href="/ManageUsers" className="nav-link">Manage Users</a></li>
+                            <li className="nav-item"><a href="/User" className="nav-link">Home Page</a></li>
                             <li className="nav-item"><a href="/Logout" className="nav-link">Logout</a></li>
                         </ul>
             
@@ -121,7 +110,6 @@ function ManageBooking() {
                     <div className="manage-users-content padd-15">
                         <div className="table-responsive">
                              <div className="manage-users-btn">
-                                <button className="btn btn-success" onClick={() => window.location.href = '/AddBooking'}>Add Booking</button>
                                <input type="text" className="search-input" placeholder="Search..." value={searchQuery} onChange={handleSearch}/>
                             </div>
                             <table className="table table-bordered">
@@ -147,8 +135,8 @@ function ManageBooking() {
                                                 <td>{reservation.money}</td>
                                                 <td>
                                                     <div className="manage-users-btn">
-                                                        <button className="btn btn-primary" onClick={() => window.location.href = `/EditBooking/${reservation.id}`}> Edit</button>
-                                                        <button className="btn btn-danger" onClick={() => handleLocationDelete(reservation.id)}> Delete </button>
+                                                        <button className="btn btn-primary">check in</button>
+                                                        <button className="btn btn-primary">check out</button>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -190,4 +178,4 @@ function ManageBooking() {
     );
 }
 
-export default ManageBooking;
+export default UserViewLocation;

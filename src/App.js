@@ -20,6 +20,7 @@ import ManageBooking from './Core-Middle-Page/Admin/ManageBooking';
 
 // Core Middle Page User
 import User from './Core-Middle-Page/User/User';
+import UserViewLocation from './Core-Middle-Page/User/UserViewLocation';
 
 // Common
 import Logout from './Core-Middle-Page/Logout';
@@ -44,6 +45,7 @@ function App() {
               <Route path="/ManageBooking" element={<ManageBooking />} />
 
               <Route path="/User" element={<User />} />
+              <Route path="/UserViewLocation" element={<UserViewLocation />} />
 
               <Route path="/Logout" element={<Logout />} />
 
