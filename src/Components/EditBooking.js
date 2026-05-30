@@ -1,17 +1,22 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faBars } from '@fortawesome/free-solid-svg-icons';
 import '../Core-Front-Page/Main Page/MainPage.css'; // Import the CSS file for styling
 import './Components.css'; // Import the CSS file for styling
 import { handleNavToggle } from '../Core-Front-Page/Main Page/JavaScript'; // Ensure this path is correct
-// Corrected import path for the Firestore database instance
-// Import necessary Firestore functions for querying and adding documents
+import {db} from '../Firebase/firebase'; // Corrected import path for the Firestore database instance
+import { doc, getDoc, updateDoc} from 'firebase/firestore'; // Import necessary Firestore functions for querying and adding documents
 
 function EditBooking() {
+    const { id } = useParams();
     useEffect(() => {
-        handleNavToggle(); // Call the function to initialize navigation toggle functionality
-}, []); 
+        handleNavToggle();
+        fetchUser(); // Call the function to initialize navigation toggle functionality
+}, [id]); 
 
+    const navigate = useNavigate(); 
+    
     const [locationName, setLocationName] = useState('');
     const [locationDescription, setLocationDescription] = useState('');
     const [Availability, setAvailability] = useState('');
@@ -89,11 +94,39 @@ function EditBooking() {
         return isValid;
     };
 
-    const EditReservation = async () => {
-        if (!validateReservation()) {
-            return;
+    const fetchUser = async () => {
+        try {
+            const docRef = doc(db, "Reservation", id);
+            const docSnap = await getDoc(docRef);
+
+            if(docSnap.exists()) {
+                const locationData = docSnap.data();
+                setLocationName(locationData.LocationName);
+                setLocationDescription(locationData.LocationDescription);
+                setAvailability(locationData.space);
+                setCost(locationData.money);
+            }
+        } catch (error) {
+            console.error("Error fetching location:", error);
         }
-    }
+    };
+
+    const handleUpdate = async () => {
+        if(validateReservation()) {
+            try {
+                await updateDoc(doc(db, "Reservation", id), {
+                    LocationName: locationName,
+                    LocationDescription: locationDescription,
+                    space: Availability,
+                    money: cost,
+                });
+                alert('Location updated Successfully');
+                navigate('/ManageBooking');
+            } catch(error) {
+                 console.error("Error updating location:", error);
+            }
+        }
+    };
     
     return (
         <div>
@@ -132,13 +165,13 @@ function EditBooking() {
 
                     <div className='box'>
                         <p>Location Name</p>
-                        <input type='text' placeholder='Add Location Name' onChange={(e) => setLocationName(e.target.value)}/>
+                        <input type='text' value={locationName}  placeholder='Add Location Name' onChange={(e) => setLocationName(e.target.value)}/>
                         <p style={{ color: 'red' }}>{locationNameError}</p>
                     </div>
 
                     <div className='box'>
                         <p>Location Description</p>
-                        <textarea type='text' rows={7} cols={40} placeholder='Add Location Description' onChange={(e) => setLocationDescription(e.target.value)} />
+                        <textarea type='text' rows={7} cols={40} value={locationDescription} placeholder='Add Location Description' onChange={(e) => setLocationDescription(e.target.value)} />
                          <p style={{ color: 'red' }}>{locationDescriptionError}</p>
                     </div>
 
@@ -150,11 +183,11 @@ function EditBooking() {
                         
                     <div className='box'>
                         <p>Cost per hour</p>
-                         <input type='text' placeholder='Add Price' onChange={(e) => setCost(e.target.value)} />
+                         <input type='text' value={cost} placeholder='Add Price' onChange={(e) => setCost(e.target.value)} />
                           <p style={{ color: 'red' }}>{costError}</p>
                     </div>
 
-                    <button onClick={EditReservation}>Update Reservation</button>
+                    <button onClick={handleUpdate}>Update Reservation</button>
                     <button onClick={() => window.location.href = '/ManageBooking'}>Back</button>
                 </div>
             </div>

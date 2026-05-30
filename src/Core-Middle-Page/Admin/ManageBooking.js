@@ -147,7 +147,7 @@ function ManageBooking() {
                                                 <td>{reservation.money}</td>
                                                 <td>
                                                     <div className="manage-users-btn">
-                                                        <button className="btn btn-primary"> Edit</button>
+                                                        <button className="btn btn-primary" onClick={() => window.location.href = `/EditBooking/${reservation.id}`}> Edit</button>
                                                         <button className="btn btn-danger" onClick={() => handleLocationDelete(reservation.id)}> Delete </button>
                                                     </div>
                                                 </td>
