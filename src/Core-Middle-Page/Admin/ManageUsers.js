@@ -142,6 +142,7 @@ function ManageUsers() {
                                         <th>Date Of Birth</th>
                                         <th>User Type</th>
                                         <th>Actions</th>
+                                        <th>Check In / Out</th>
                                     </tr>
                                 </thead>
 
@@ -158,6 +159,12 @@ function ManageUsers() {
                                                     <div className="manage-users-btn">
                                                         <button className="btn btn-primary" onClick={() => window.location.href = `/EditUser/${user.id}`}> Edit</button>
                                                         <button className="btn btn-danger" onClick={() => handleDelete(user.id)}> Delete </button>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div className="manage-users-btn">
+                                                        <button>Check In</button>
+                                                        <button>Check Out</button>
                                                     </div>
                                                 </td>
                                             </tr>
