@@ -131,8 +131,10 @@ function ManageBooking() {
                                         <th>ID</th>
                                         <th>Location Name</th>
                                         <th>Location Description</th>
-                                        <th>Availability / Capacity</th>
+                                        <th>Availability</th>
+                                        <th>Capacity</th>
                                         <th>Cost ($) per hour: </th>
+                                        <th>Late ($) per hour: </th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -145,20 +147,20 @@ function ManageBooking() {
                                                 <td>{reservation.LocationName}</td>
                                                 <td>{reservation.LocationDescription}</td>
                                                 <td>{reservation.space}</td>
-                                                <td>{reservation.money}</td>
+                                                <td>{reservation.Capacity}</td>
+                                                <td>{reservation.CostPerHour}</td>
+                                                <td>{reservation.lateCostPerHour}</td>
                                                 <td>
                                                     <div className="manage-users-btn">
                                                         <button className="btn btn-primary" onClick={() => window.location.href = `/EditBooking/${reservation.id}`}> Edit</button>
                                                         <button className="btn btn-danger" onClick={() => handleLocationDelete(reservation.id)}> Delete </button>
-                                                        <button> <FiCopy style={{ marginRight: "6px" }} /> </button>
-                                                        <button> <FiClipboard style={{ marginRight: "6px" }} /></button>
                                                     </div>
                                                 </td>
                                             </tr>
                                         ))
                                     ) : (
                                         <tr>
-                                            <td colSpan="6" className="text-center">
+                                            <td colSpan="8" className="text-center">
                                                 No Locations found.
                                             </td>
                                         </tr>

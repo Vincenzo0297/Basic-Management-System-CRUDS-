@@ -21,11 +21,13 @@ function EditBooking() {
     const [locationDescription, setLocationDescription] = useState('');
     const [Availability, setAvailability] = useState('');
     const [cost, setCost] = useState('');
+    const [lateCost, setLateCost] =useState('');
 
     const [locationNameError, setLocationNameError] = useState('');
     const [locationDescriptionError, setLocationDescriptionError] = useState('');
     const [AvailabilityError, setAvailabilityError] = useState('');
     const [costError, setCostError] = useState('');
+    const [lateCostError, setLateCostError] = useState('');
 
     const validateReservation = () => {
         let isValid = true;
@@ -91,6 +93,21 @@ function EditBooking() {
                 setCostError('');
             }
         }
+
+        if(lateCost.trim() === '') {
+            setLateCostError('Late Cost Per Hour is required');
+            isValid = false;
+        } else if(!CostPerHrPattern.test(lateCost)) {
+            setLateCostError("Enter a valid late cost");
+            isValid = false;
+        } else {
+             if (parseFloat(lateCost) <= 0) {
+                setLateCostError('Late Cost Per Hour must be greater than 0');
+                isValid = false;
+            } else {
+                setLateCostError('');
+            }
+        }
         return isValid;
     };
 
@@ -104,7 +121,8 @@ function EditBooking() {
                 setLocationName(locationData.LocationName);
                 setLocationDescription(locationData.LocationDescription);
                 setAvailability(locationData.space);
-                setCost(locationData.money);
+                setCost(locationData.CostPerHour);
+                setLateCost(locationData.lateCostPerHour);
             }
         } catch (error) {
             console.error("Error fetching location:", error);
@@ -118,7 +136,8 @@ function EditBooking() {
                     LocationName: locationName,
                     LocationDescription: locationDescription,
                     space: Availability,
-                    money: cost,
+                    costPerHour: cost,
+                    lateCostPerHour: lateCost,
                 });
                 alert('Location updated Successfully');
                 navigate('/ManageBooking');
@@ -176,15 +195,21 @@ function EditBooking() {
                     </div>
 
                     <div className='box'>
-                        <p>Availability / Capacity</p>
+                        <p>Availability</p>
                         <input type='text' placeholder='Enter Capacity' value={Availability} onChange={(e) => setAvailability(e.target.value)} />
                         <p style={{ color: 'red' }}> {AvailabilityError} </p>
                     </div>
                         
                     <div className='box'>
                         <p>Cost per hour</p>
-                         <input type='text' value={cost} placeholder='Add Price' onChange={(e) => setCost(e.target.value)} />
+                         <input type='text' value={cost} placeholder='Edit Cost Per Hour' onChange={(e) => setCost(e.target.value)} />
                           <p style={{ color: 'red' }}>{costError}</p>
+                    </div>
+
+                    <div className='box'>
+                        <p>Late Cost per hour</p>
+                         <input type='text' value={lateCost} placeholder='Edit Late Cost Per Hour' onChange={(e) => setLateCost(e.target.value)} />
+                          <p style={{ color: 'red' }}>{lateCostError}</p>
                     </div>
 
                     <button onClick={handleUpdate}>Update Reservation</button>

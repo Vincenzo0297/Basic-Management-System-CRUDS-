@@ -15,13 +15,16 @@ function AddBooking() {
 
     const [locationName, setLocationName] = useState('');
     const [locationDescription, setLocationDescription] = useState('');
+    const [capacity, setCapacity] = useState(0);
     const [Availability, setAvailability] = useState('');
     const [cost, setCost] = useState('');
+    const [lateCost, setLateCost] = useState('');
 
     const [locationNameError, setLocationNameError] = useState('');
     const [locationDescriptionError, setLocationDescriptionError] = useState('');
     const [AvailabilityError, setAvailabilityError] = useState('');
     const [costError, setCostError] = useState('');
+    const [lateCostError, setLateCostError] = useState('');
 
     const validateReservation = () => {
         let isValid = true;
@@ -63,7 +66,7 @@ function AddBooking() {
          // Availability / Capacity validation
         const AvailabilityPattern = /^[0-9]+$/; // Only numbers allowed
         if (Availability.trim() === '') {
-                setAvailabilityError('Availability / Capacity is required');
+                setAvailabilityError('Availability is required');
                 isValid = false;
             } else if (!AvailabilityPattern.test(Availability)) {
                 setAvailabilityError('Only numbers are allowed');
@@ -87,6 +90,21 @@ function AddBooking() {
                 setCostError('');
             }
         }
+
+        if(lateCost.trim() === '') {
+            setLateCostError('Late Cost Per Hour is required');
+            isValid = false;
+        } else if(!CostPerHrPattern.test(lateCost)) {
+            setLateCostError("Enter a valid late cost");
+            isValid = false;
+        } else {
+             if (parseFloat(lateCost) <= 0) {
+                setLateCostError('Late Cost Per Hour must be greater than 0');
+                isValid = false;
+            } else {
+                setLateCostError('');
+            }
+        }
         return isValid;
     };
 
@@ -100,8 +118,10 @@ function AddBooking() {
             await addDoc(dbref, {
                 LocationName: locationName,
                 LocationDescription: locationDescription,
+                Capacity: capacity,
                 space: Availability,
-                money: cost
+                CostPerHour: cost,
+                lateCostPerHour: lateCost
             })
             alert('Add Car Reservation');
             window.location.reload();
@@ -158,15 +178,21 @@ function AddBooking() {
                     </div>
 
                     <div className='box'>
-                        <p>Availability / Capacity</p>
+                        <p>Availability</p>
                         <input type='text' placeholder='Enter Capacity' value={Availability} onChange={(e) => setAvailability(e.target.value)} />
                         <p style={{ color: 'red' }}> {AvailabilityError} </p>
                     </div>
                         
                     <div className='box'>
                         <p>Cost per hour</p>
-                         <input type='text' placeholder='Add Price' onChange={(e) => setCost(e.target.value)} />
+                         <input type='text' placeholder='Add cost per hour' onChange={(e) => setCost(e.target.value)} />
                           <p style={{ color: 'red' }}>{costError}</p>
+                    </div>
+
+                    <div className='box'>
+                        <p>Late Cost per hour</p>
+                         <input type='text' placeholder='Add late cost per hour' onChange={(e) => setLateCost(e.target.value)} />
+                          <p style={{ color: 'red' }}>{lateCostError}</p>
                     </div>
 
                     <button onClick={AddReservation}>Create Reservation</button>
