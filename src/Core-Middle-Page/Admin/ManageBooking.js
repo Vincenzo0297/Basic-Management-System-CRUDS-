@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faBars } from '@fortawesome/free-solid-svg-icons';
-import { collection, getDocs, deleteDoc, doc, where, query, getDoc } from 'firebase/firestore';
+import { FiCopy, FiClipboard } from "react-icons/fi";
+import { collection, getDocs, deleteDoc, doc, where, query, addDoc } from 'firebase/firestore';
 
 import { db } from '../../Firebase/firebase'; // Adjust path correctly
 import { handleNavToggle } from '../../Core-Front-Page/Main Page/JavaScript';
@@ -31,7 +32,7 @@ function ManageBooking() {
     );
     
     const totalPages = Math.ceil(reservation.length / locationPerPage); // Calculate the total number of pages based on the total number of users and users per page
-    
+
     const fetchLocation = async () => {
         try {
             const querySS = await getDocs(collection(db, "Reservation"));
@@ -149,6 +150,8 @@ function ManageBooking() {
                                                     <div className="manage-users-btn">
                                                         <button className="btn btn-primary" onClick={() => window.location.href = `/EditBooking/${reservation.id}`}> Edit</button>
                                                         <button className="btn btn-danger" onClick={() => handleLocationDelete(reservation.id)}> Delete </button>
+                                                        <button> <FiCopy style={{ marginRight: "6px" }} /> </button>
+                                                        <button> <FiClipboard style={{ marginRight: "6px" }} /></button>
                                                     </div>
                                                 </td>
                                             </tr>
