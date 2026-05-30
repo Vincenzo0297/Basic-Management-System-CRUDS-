@@ -16,6 +16,8 @@ import EditBooking from './Components/EditBooking';
 import Admin from './Core-Middle-Page/Admin/Admin'; 
 import ManageUsers from './Core-Middle-Page/Admin/ManageUsers';
 import ManageBooking from './Core-Middle-Page/Admin/ManageBooking';
+import AdminCheckIn from './Components/AdminCheckIn';
+import AdminCheckOut from './Components/AdminCheckOut';
 
 
 // Core Middle Page User
@@ -43,6 +45,9 @@ function App() {
               <Route path="/Admin" element={<Admin />} />
               <Route path="/ManageUsers" element={<ManageUsers />} />
               <Route path="/ManageBooking" element={<ManageBooking />} />
+              <Route path="/AdminCheckIn" element={<AdminCheckIn />} />
+              <Route path="/AdminCheckOut" element={<AdminCheckOut />} />
+              
 
               <Route path="/User" element={<User />} />
               <Route path="/UserViewLocation" element={<UserViewLocation />} />

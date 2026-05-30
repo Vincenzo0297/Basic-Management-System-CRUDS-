@@ -163,8 +163,8 @@ function ManageUsers() {
                                                 </td>
                                                 <td>
                                                     <div className="manage-users-btn">
-                                                        <button>Check In</button>
-                                                        <button>Check Out</button>
+                                                        <button  onClick={() => window.location.href = '/AdminCheckIn'}>Check In</button>
+                                                        <button  onClick={() => window.location.href = '/AdminCheckOut'}>Check Out</button>
                                                     </div>
                                                 </td>
                                             </tr>
