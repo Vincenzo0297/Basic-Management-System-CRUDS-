@@ -11,6 +11,8 @@ import AddUser from './Components/AddUser';
 import EditUser from './Components/EditUser';
 import AddBooking from './Components/AddBooking';
 import EditBooking from './Components/EditBooking';
+import UserCheckIn from './Components/UserCheckIn';
+import UserCheckOut from './Components/UserCheckOut';
 
 // Core Middle Page Admin
 import Admin from './Core-Middle-Page/Admin/Admin'; 
@@ -36,11 +38,13 @@ function App() {
               <Route path="/" element={<MainPage />} />
               <Route path="/MainPage" element={<MainPage />} />
               <Route path="/Login" element={<Login />} />
+
               <Route path="/AddUser" element={<AddUser />} />
               <Route path="/EditUser/:id" element={<EditUser />} />
               <Route path="/AddBooking" element={<AddBooking/>} />
               <Route path="/EditBooking/:id" element={<EditBooking/>} />
-              
+              <Route path="/UserCheckIn" element={<UserCheckIn />} />
+              <Route path="/UserCheckOut" element={<UserCheckOut />} />
 
               <Route path="/Admin" element={<Admin />} />
               <Route path="/ManageUsers" element={<ManageUsers />} />
@@ -48,7 +52,6 @@ function App() {
               <Route path="/AdminCheckIn" element={<AdminCheckIn />} />
               <Route path="/AdminCheckOut" element={<AdminCheckOut />} />
               
-
               <Route path="/User" element={<User />} />
               <Route path="/UserViewLocation" element={<UserViewLocation />} />
 

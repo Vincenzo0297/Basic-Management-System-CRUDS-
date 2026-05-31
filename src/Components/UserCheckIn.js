@@ -1,23 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faBars } from '@fortawesome/free-solid-svg-icons';
-import { collection, getDocs, where, query } from 'firebase/firestore';
+import { collection, getDocs, doc, updateDoc, increment} from 'firebase/firestore';
 
-import { db } from '../../Firebase/firebase'; // Adjust path correctly
-import { handleNavToggle } from '../../Core-Front-Page/Main Page/JavaScript';
+import { db } from '../Firebase/firebase'; // Adjust path correctly
+import { handleNavToggle } from '../Core-Front-Page/Main Page/JavaScript';
 
-import '../Admin/Admin.css';
-
-function UserViewLocation() {
+function UserCheckIn() {
     useEffect(() => {
     handleNavToggle(); // Call the function to initialize navigation toggle functionality
     fetchLocation();
 }, []); 
 
     const [reservation, setReservation] = useState([]);
-
-    // Search for location
-    const [searchQuery, setSearchQuery] = useState(''); 
+    const [selectLocation, setSelectLocation] = useState(null);
 
     // Pagination state and logic
     const [currentPage, setCurrentPage] = useState(1); // State to track the current page
@@ -31,7 +27,7 @@ function UserViewLocation() {
     );
     
     const totalPages = Math.ceil(reservation.length / locationPerPage); // Calculate the total number of pages based on the total number of users and users per page
-    
+
     const fetchLocation = async () => {
         try {
             const querySS = await getDocs(collection(db, "Reservation"));
@@ -46,39 +42,43 @@ function UserViewLocation() {
                 ...doc.data()
             }));
 
-        setReservation(locationData);
+            setReservation(locationData);
 
         } catch (error) {
             console.error("Error fetching Location:", error);
         }
     };
 
-   const handleSearch = async (event) => {
-
-        const value = event.target.value;
-        setSearchQuery(value);
-
+    const handleCheckIn = async () => {
         try {
+            if (!selectLocation) {
+                alert("Please select a location.");
+                return;
+            }
 
-            const reservationRef = collection(db, "Reservation");
-
-            const q = query(
-                reservationRef,
-                where("LocationName", ">=", value),
-                where("LocationName", "<=", value + "\uf8ff")
+            const selectData = reservation.find(
+                item => item.id === selectLocation
             );
 
-            const querySnapshot = await getDocs(q);
+            // Parking full
+            if (selectData.Capacity >= selectData.space) {
+                alert("Parking Full!");
+                return;
+            }
 
-            const results = querySnapshot.docs.map((doc) => ({
-                id: doc.id,
-                ...doc.data(),
-            }));
+            const locationRef = doc(db, "Reservation", selectLocation);
 
-            setReservation(results);
+            await updateDoc(locationRef, {
+                Capacity: increment(1)
+            });
+
+            alert("Check In Successful!");
+
+            fetchLocation(); // refresh table
 
         } catch (error) {
-            console.error(error);
+            console.error("Error checking in:", error);
+            alert("Check In Failed!");
         }
     };
 
@@ -89,6 +89,7 @@ function UserViewLocation() {
                     <div className="nav-menu" id="nav-menu">
                         <ul className="nav-list">
                             <li className="nav-item"><a href="/User" className="nav-link">Home Page</a></li>
+                            <li className="nav-item"><a href="/UserViewLocation" className="nav-link">View Location</a></li>
                             <li className="nav-item"><a href="/Logout" className="nav-link">Logout</a></li>
                         </ul>
             
@@ -109,20 +110,17 @@ function UserViewLocation() {
                 <div className="container">
                     <div className="manage-users-content padd-15">
                         <div className="table-responsive">
-                             <div className="manage-users-btn">
-                               <input type="text" className="search-input" placeholder="Search..." value={searchQuery} onChange={handleSearch}/>
-                            </div>
                             <table className="table table-bordered">
                                 <thead>
                                     <tr>
                                         <th>ID</th>
                                         <th>Location Name</th>
-                                        <th>Location Description</th>
-                                        <th>Availability</th>
+                                        <th>Description</th>
                                         <th>Capacity</th>
-                                        <th>Cost ($) per hour: </th>
-                                        <th>Late ($) per hour: </th>
-                                        <th>Actions</th>
+                                        <th>ParkingSpace (Capacity)</th>
+                                        <th>CostPerHr ($)</th>
+                                        <th>LateCost ($)</th>
+                                        <th>Select</th>
                                     </tr>
                                 </thead>
 
@@ -137,12 +135,7 @@ function UserViewLocation() {
                                                 <td>{reservation.Capacity}</td>
                                                 <td>{reservation.CostPerHour}</td>
                                                 <td>{reservation.lateCostPerHour}</td>
-                                                <td>
-                                                    <div className="manage-users-btn">
-                                                        <button className="btn btn-primary" onClick={() => window.location.href = '/UserCheckIn'}>check in</button>
-                                                        <button className="btn btn-primary" onClick={() => window.location.href = '/UserCheckOut'}>check out</button>
-                                                    </div>
-                                                </td>
+                                                <td><input type="radio" name="location" checked={selectLocation === reservation.id} onChange={() => setSelectLocation(reservation.id)}/> </td>
                                             </tr>
                                         ))
                                     ) : (
@@ -165,6 +158,34 @@ function UserViewLocation() {
                             </div>
                         </div>
                     </div>
+
+                    <form>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <label>Current Date:</label>
+                                        <input type="date" name="Date" required />
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <label>Current Time:</label>
+                                        <input type="time" name="Time" required />
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                   <td>
+                                        <div className="manage-users-btn">
+                                            <button type="button" onClick={handleCheckIn}>Check In</button>
+                                        </div>
+                                   </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </form>
                 </div>
             </main>
 
@@ -182,4 +203,4 @@ function UserViewLocation() {
     );
 }
 
-export default UserViewLocation;
+export default UserCheckIn;
