@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faBars } from '@fortawesome/free-solid-svg-icons';
-import { collection, getDocs} from 'firebase/firestore';
+import { collection, getDocs, updateDoc, doc, increment} from 'firebase/firestore';
 
 import { db } from '../Firebase/firebase'; // Adjust path correctly
 import { handleNavToggle } from '../Core-Front-Page/Main Page/JavaScript';
@@ -13,6 +13,7 @@ function AdminCheckOut() {
 }, []); 
 
     const [reservation, setReservation] = useState([]);
+    const [selectLocation, setSelectLocation] = useState(null);
 
     // Pagination state and logic
     const [currentPage, setCurrentPage] = useState(1); // State to track the current page
@@ -45,6 +46,43 @@ function AdminCheckOut() {
 
         } catch (error) {
             console.error("Error fetching Location:", error);
+        }
+    };
+
+    const handleCheckOut = async () => {
+        try {
+            if (!selectLocation) {
+                alert("Please select a location.");
+                return;
+            }
+
+            const selectData = reservation.find(
+                item => item.id === selectLocation
+            );
+
+            // Prevent negative values
+            if (selectData.Capacity <= 0) {
+                alert("Unable to check out.");
+                return;
+            }
+
+            const locationRef = doc(
+                db,
+                "Reservation",
+                selectLocation
+            );
+
+            await updateDoc(locationRef, {
+                Capacity: increment(-1)
+            });
+
+            alert("Check Out Successful!");
+
+            fetchLocation();
+
+        } catch (error) {
+            console.error("Error checking out:", error);
+            alert("Check Out Failed!");
         }
     };
 
@@ -100,7 +138,7 @@ function AdminCheckOut() {
                                                 <td>{reservation.Capacity}</td>
                                                 <td>Date</td>
                                                 <td>Duration</td>
-                                                <td> <input type="radio" /></td>
+                                                <td><input type="radio" name="location" checked={selectLocation === reservation.id} onChange={() => setSelectLocation(reservation.id)}/> </td>
                                             </tr>
                                         ))
                                     ) : (
@@ -144,7 +182,7 @@ function AdminCheckOut() {
                                 <tr>
                                    <td>
                                         <div className="manage-users-btn">
-                                            <button>Check Out</button>
+                                            <button type="button" onClick={handleCheckOut}>Check Out</button>
                                         </div>
                                    </td>
                                 </tr>

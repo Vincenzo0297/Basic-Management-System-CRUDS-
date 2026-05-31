@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faBars } from '@fortawesome/free-solid-svg-icons';
-import { collection, getDocs} from 'firebase/firestore';
+import { collection, getDocs, doc, updateDoc, increment} from 'firebase/firestore';
 
 import { db } from '../Firebase/firebase'; // Adjust path correctly
 import { handleNavToggle } from '../Core-Front-Page/Main Page/JavaScript';
@@ -13,6 +13,7 @@ function AdminCheckIn() {
 }, []); 
 
     const [reservation, setReservation] = useState([]);
+    const [selectLocation, setSelectLocation] = useState(null);
 
     // Pagination state and logic
     const [currentPage, setCurrentPage] = useState(1); // State to track the current page
@@ -45,6 +46,39 @@ function AdminCheckIn() {
 
         } catch (error) {
             console.error("Error fetching Location:", error);
+        }
+    };
+
+    const handleCheckIn = async () => {
+        try {
+            if (!selectLocation) {
+                alert("Please select a location.");
+                return;
+            }
+
+            const selectData = reservation.find(
+                item => item.id === selectLocation
+            );
+
+            // Parking full
+            if (selectData.Capacity >= selectData.space) {
+                alert("Parking Full!");
+                return;
+            }
+
+            const locationRef = doc(db, "Reservation", selectLocation);
+
+            await updateDoc(locationRef, {
+                Capacity: increment(1)
+            });
+
+            alert("Check In Successful!");
+
+            fetchLocation(); // refresh table
+
+        } catch (error) {
+            console.error("Error checking in:", error);
+            alert("Check In Failed!");
         }
     };
 
@@ -102,7 +136,7 @@ function AdminCheckIn() {
                                                 <td>{reservation.Capacity}</td>
                                                 <td>{reservation.CostPerHour}</td>
                                                 <td>{reservation.lateCostPerHour}</td>
-                                                <td> <input type="radio" /></td>
+                                                <td><input type="radio" name="location" checked={selectLocation === reservation.id} onChange={() => setSelectLocation(reservation.id)}/> </td>
                                             </tr>
                                         ))
                                     ) : (
@@ -146,7 +180,7 @@ function AdminCheckIn() {
                                 <tr>
                                    <td>
                                         <div className="manage-users-btn">
-                                            <button>Check In</button>
+                                            <button type="button" onClick={handleCheckIn}>Check In</button>
                                         </div>
                                    </td>
                                 </tr>
