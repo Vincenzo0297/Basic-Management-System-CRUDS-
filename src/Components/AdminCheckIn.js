@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faBars } from '@fortawesome/free-solid-svg-icons';
-import { collection, getDocs, doc, updateDoc, increment} from 'firebase/firestore';
+import { collection, getDocs, doc, updateDoc, increment, where, query} from 'firebase/firestore';
 
 import { db } from '../Firebase/firebase'; // Adjust path correctly
 import { handleNavToggle } from '../Core-Front-Page/Main Page/JavaScript';
@@ -12,7 +12,15 @@ function AdminCheckIn() {
     fetchLocation();
 }, []); 
 
+    // State to track the selected filter value for filtering locations based on availability
+    const [filter, setFilter] = useState("All");
     const [reservation, setReservation] = useState([]);
+    const [allReservation, setAllReservation] = useState([]);
+
+    // State to track the search query for filtering locations by name
+    const [searchQuery, setSearchQuery] = useState("");
+
+    // State to track the selected location for check-in
     const [selectLocation, setSelectLocation] = useState(null);
 
     // Pagination state and logic
@@ -28,12 +36,14 @@ function AdminCheckIn() {
     
     const totalPages = Math.ceil(reservation.length / locationPerPage); // Calculate the total number of pages based on the total number of users and users per page
 
+    // Split means to split the date and time, we only want the date part for the currentDate state variable. The toISOString() method returns a string in the format "YYYY-MM-DDTHH:mm:ss.sssZ", so by splitting it at the "T" character and taking the first part (index 0), we get just the date portion in the desired format.
     const [currentDate, setCurrentDate] = useState(
-        new Date().toISOString().split("T")[0]
+        new Date().toISOString().split("T")[0] // Get current date in YYYY-MM-DD format
     );
 
+    // slice means to split the date and time, we only want the date part for the currentDate state variable. The toISOString() method returns a string in the format "YYYY-MM-DDTHH:mm:ss.sssZ", so by splitting it at the "T" character and taking the first part (index 0), we get just the date portion in the desired format.
     const [currentTime, setCurrentTime] = useState(
-        new Date().toISOString().slice(0,5)
+        new Date().toISOString().slice(0,5) // Get current time in HH:MM format
     );
 
     const fetchLocation = async () => {
@@ -51,9 +61,55 @@ function AdminCheckIn() {
             }));
 
             setReservation(locationData);
+            setAllReservation(locationData); // Store all locations in a separate state variable for filtering purposes
 
         } catch (error) {
             console.error("Error fetching Location:", error);
+        }
+    };
+
+    const handleSearch = async (event) => {
+        const value = event.target.value;
+        setSearchQuery(value);
+
+        try {
+            const reservationRef = collection(db, "Reservation");
+
+            const q = query(
+                reservationRef,
+                where("LocationName", ">=", value), 
+                where("LocationName", "<=", value + "\uf8ff")
+            );
+            const querySnapshot = await getDocs(q);
+            // Process the search results
+            const searchResults = querySnapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            }));
+            setReservation(searchResults);
+        } catch (error) {
+            console.error("Error searching Location:", error);
+        }
+    };
+
+    const handleFilterChange = (event) => {
+        const value = event.target.value;
+        setFilter(value);
+        // Filter the locations based on the selected filter value
+        if (value === "Available") {
+            const availableLocations = allReservation.filter(
+                (location) => Number(location.Capacity) < Number(location.space)
+            );
+            setReservation(availableLocations); // Update the reservation state with the filtered locations based on the selected filter value
+
+        } else if (value === "Full Spaces Location") {
+            const fullLocations = allReservation.filter(
+                (location) =>  Number(location.Capacity) >= Number(location.space)
+            );
+            setReservation(fullLocations); // Update the reservation state with the filtered locations based on the selected filter value
+
+        } else {
+            setReservation(allReservation); // If "All" is selected, reset the reservation state to show all locations
         }
     };
 
@@ -125,6 +181,15 @@ function AdminCheckIn() {
                 <div className="container">
                     <div className="manage-users-content padd-15">
                         <div className="table-responsive">
+                            <div className="manage-users-btn">
+                                <input type="text" className="search-input" placeholder="Search..." value={searchQuery} onChange={handleSearch}/>
+                                <select className="filter-select" value={filter} onChange={handleFilterChange}>
+                                    <option value="All">All Space</option>
+                                    <option value="Available"> Current Available Space</option>
+                                    <option value="Full Spaces Location"> Current Full Spaces Locations</option>
+                                </select>
+                            </div>
+                            
                             <table className="table table-bordered">
                                 <thead>
                                     <tr>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faBars } from '@fortawesome/free-solid-svg-icons';
-import { collection, getDocs, updateDoc, doc, increment} from 'firebase/firestore';
+import { collection, getDocs, updateDoc, doc, increment, where, query} from 'firebase/firestore';
 
 import { db } from '../Firebase/firebase'; // Adjust path correctly
 import { handleNavToggle } from '../Core-Front-Page/Main Page/JavaScript';
@@ -12,7 +12,11 @@ function UserCheckOut() {
     fetchLocation();
 }, []); 
 
+    const [filter, setFilter] = useState("All");
     const [reservation, setReservation] = useState([]);
+    const [allReservation, setAllReservation] = useState([]);
+    const [searchQuery, setSearchQuery] = useState("");
+
     const [selectLocation, setSelectLocation] = useState(null);
 
     // Pagination state and logic
@@ -43,11 +47,55 @@ function UserCheckOut() {
             }));
 
             setReservation(locationData);
+            setAllReservation(locationData); // Store all locations in a separate state variable for filtering purposes
 
         } catch (error) {
             console.error("Error fetching Location:", error);
         }
     };
+
+    const handleSearch = async (event) => {
+        const value = event.target.value;
+        setSearchQuery(value);
+
+        try {
+            const reservationRef = collection(db, "Reservation");
+
+            const q = query(
+                reservationRef,
+                where("LocationName", ">=", value), 
+                where("LocationName", "<=", value + "\uf8ff")
+            );
+            const querySnapshot = await getDocs(q);
+            // Process the search results
+            const searchResults = querySnapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            }));
+            setReservation(searchResults);
+        } catch (error) {
+            console.error("Error searching locations:", error);
+        }
+    };
+
+    const handleFilterChange = (event) => {
+        const value = event.target.value;
+        setFilter(value);
+        if (value === "Available") {
+            const availableLocations = allReservation.filter(
+                (location) => Number(location.Capacity) < Number(location.space)
+            );
+            setReservation(availableLocations);
+        } else if (value === "Full Spaces Location") {
+            const fullLocations = allReservation.filter(
+                (location) =>  Number(location.Capacity) >= Number(location.space)
+            );
+            setReservation(fullLocations);
+        } else {
+            setReservation(allReservation);
+        }
+    };
+
 
     const handleCheckOut = async () => {
         try {
@@ -114,6 +162,15 @@ function UserCheckOut() {
                 <div className="container">
                     <div className="manage-users-content padd-15">
                         <div className="table-responsive">
+                            <div className="manage-users-btn">
+                                <input type="text" className="search-input" placeholder="Search..." value={searchQuery} onChange={handleSearch}/>
+                                <select className="filter-select" value={filter} onChange={handleFilterChange}>
+                                    <option value="All">All Space</option>
+                                    <option value="Available"> Current Available Space</option>
+                                    <option value="Full Spaces Location"> Current Full Spaces Locations</option>
+                                </select>
+                            </div>
+                            
                             <table className="table table-bordered">
                                 <thead>
                                     <tr>
