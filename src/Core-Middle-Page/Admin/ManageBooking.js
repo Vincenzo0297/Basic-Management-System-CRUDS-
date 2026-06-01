@@ -14,7 +14,10 @@ function ManageBooking() {
     fetchLocation();
 }, []); 
 
+    // Filter All location, Filter Available location, Filter Full Spaces location
+    const [filter, setFilter] = useState('All');
     const [reservation, setReservation] = useState([]);
+    const [allReservation, setAllReservation] = useState([]);
 
     // Search for location
     const [searchQuery, setSearchQuery] = useState(''); 
@@ -32,21 +35,24 @@ function ManageBooking() {
     
     const totalPages = Math.ceil(reservation.length / locationPerPage); // Calculate the total number of pages based on the total number of users and users per page
 
+    // Fetch all location data from Firestore
     const fetchLocation = async () => {
         try {
-            const querySS = await getDocs(collection(db, "Reservation"));
+            const querySS = await getDocs(collection(db, "Reservation")); // Fetch all documents from the "Reservation" collection
 
             // only docs with LocationName
             const filteredDocs = querySS.docs.filter(
                 doc => doc.data()
             );
 
+            // Map the filtered documents to an array of location data
             const locationData = filteredDocs.map(doc => ({
                 id: doc.id,
                 ...doc.data()
             }));
 
-        setReservation(locationData);
+            setReservation(locationData); // Set the reservation state with the initial data
+            setAllReservation(locationData); // Set the allReservation state with the initial data
 
         } catch (error) {
             console.error("Error fetching Location:", error);
@@ -55,30 +61,53 @@ function ManageBooking() {
 
    const handleSearch = async (event) => {
 
-        const value = event.target.value;
-        setSearchQuery(value);
+        const value = event.target.value; // Get the search query from the input field
+        setSearchQuery(value); // Update the searchQuery state with the current value of the input field
 
         try {
-
-            const reservationRef = collection(db, "Reservation");
-
+            const reservationRef = collection(db, "Reservation"); // Reference to the "Reservation" collection in Firestore
+            
+            // Create a query to search for documents where the "LocationName" field matches the search query (case-insensitive)
             const q = query(
                 reservationRef,
                 where("LocationName", ">=", value),
                 where("LocationName", "<=", value + "\uf8ff")
             );
 
+            // Execute the query and get the matching documents
             const querySnapshot = await getDocs(q);
-
             const results = querySnapshot.docs.map((doc) => ({
                 id: doc.id,
                 ...doc.data(),
             }));
 
-            setReservation(results);
+            setReservation(results); // Update the reservation state with the search results, which will trigger a re-render of the component to display the filtered locations
 
         } catch (error) {
             console.error(error);
+        }
+    };
+
+    // Handle filter change to show all locations, available locations, or full spaces locations
+    const handleFilterChange = (event) => {
+        const value = event.target.value; // Get the selected filter value from the dropdown
+        setFilter(value); // Update the filter state with the selected value
+
+        // Filter the locations based on the selected filter value
+        if (value === "Available") {
+            const availableLocations = allReservation.filter(
+                (location) => Number(location.Capacity) < Number(location.space)
+            );
+            setReservation(availableLocations); // Update the reservation state with the filtered locations based on the selected filter value
+
+        } else if (value === "Full Spaces Location") {
+            const fullLocations = allReservation.filter(
+                (location) =>  Number(location.Capacity) >= Number(location.space)
+            );
+            setReservation(fullLocations); // Update the reservation state with the filtered locations based on the selected filter value
+
+        } else {
+            setReservation(allReservation); // If "All" is selected, reset the reservation state to show all locations
         }
     };
 
@@ -122,7 +151,12 @@ function ManageBooking() {
                         <div className="table-responsive">
                              <div className="manage-users-btn">
                                 <button className="btn btn-success" onClick={() => window.location.href = '/AddBooking'}>Add Booking</button>
-                               <input type="text" className="search-input" placeholder="Search..." value={searchQuery} onChange={handleSearch}/>
+                                <input type="text" className="search-input" placeholder="Search..." value={searchQuery} onChange={handleSearch}/>
+                                <select className="filter-select" value={filter} onChange={handleFilterChange}>
+                                    <option value="All">All Space</option>
+                                    <option value="Available"> Current Available Space</option>
+                                    <option value="Full Spaces Location"> Current Full Spaces Locations</option>
+                                </select>
                             </div>
                             <table className="table table-bordered">
                                 <thead>
