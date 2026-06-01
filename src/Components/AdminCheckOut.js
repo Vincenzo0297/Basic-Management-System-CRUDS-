@@ -123,7 +123,7 @@ function AdminCheckOut() {
                                         <th>Availability</th>
                                         <th>Capacity</th>
                                         <th>Date</th>
-                                        <th>Duration</th>
+                                        <th>Time</th>
                                         <th>Select</th>
                                     </tr>
                                 </thead>
@@ -136,8 +136,8 @@ function AdminCheckOut() {
                                                 <td>{reservation.LocationName}</td>
                                                 <td>{reservation.space}</td>
                                                 <td>{reservation.Capacity}</td>
-                                                <td>Date</td>
-                                                <td>Duration</td>
+                                                <td>{reservation.checkInDate}</td>
+                                                <td>{reservation.checkInTime}</td>
                                                 <td><input type="radio" name="location" checked={selectLocation === reservation.id} onChange={() => setSelectLocation(reservation.id)}/> </td>
                                             </tr>
                                         ))

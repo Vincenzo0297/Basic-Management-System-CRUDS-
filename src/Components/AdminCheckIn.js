@@ -28,6 +28,14 @@ function AdminCheckIn() {
     
     const totalPages = Math.ceil(reservation.length / locationPerPage); // Calculate the total number of pages based on the total number of users and users per page
 
+    const [currentDate, setCurrentDate] = useState(
+        new Date().toISOString().split("T")[0]
+    );
+
+    const [currentTime, setCurrentTime] = useState(
+        new Date().toISOString().slice(0,5)
+    );
+
     const fetchLocation = async () => {
         try {
             const querySS = await getDocs(collection(db, "Reservation"));
@@ -69,10 +77,16 @@ function AdminCheckIn() {
             const locationRef = doc(db, "Reservation", selectLocation);
 
             await updateDoc(locationRef, {
-                Capacity: increment(1)
+                Capacity: increment(1),
+                checkInDate: currentDate,
+                checkInTime: currentTime,
             });
 
-            alert("Check In Successful!");
+            alert(
+                `Check In Successful!\n\n` +
+                `Date: ${currentDate}\n` +
+                `Time: ${currentTime}`
+            );
 
             fetchLocation(); // refresh table
 
@@ -166,14 +180,14 @@ function AdminCheckIn() {
                                 <tr>
                                     <td>
                                         <label>Current Date:</label>
-                                        <input type="date" name="Date" required />
+                                        <input type="date" name="Date" value={currentDate} onChange={(e) => setCurrentDate(e.target.value)}required />
                                     </td>
                                 </tr>
 
                                 <tr>
                                     <td>
                                         <label>Current Time:</label>
-                                        <input type="time" name="Time" required />
+                                        <input type="time" name="Time" value={currentTime} onChange={(e) => setCurrentTime(e.target.value)} required />
                                     </td>
                                 </tr>
 
