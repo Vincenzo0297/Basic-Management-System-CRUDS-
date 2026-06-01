@@ -11,7 +11,7 @@ import {db} from '../Firebase/firebase'; // Corrected import path for the Firest
 import { doc, getDoc, updateDoc} from 'firebase/firestore'; // Import necessary Firestore functions for querying and adding documents
 
 function EditUser() {
-  const { id } = useParams();
+  const { id } = useParams(); // Get the ID from the URL parameters. UseParams means that we can access the dynamic segments of the URL, in this case, the user ID that we want to edit. This allows us to fetch the specific user's data from Firestore and populate the form fields for editing.
   useEffect(() => {
     handleNavToggle(); // Call the function to initialize navigation toggle functionality
     fetchUser();

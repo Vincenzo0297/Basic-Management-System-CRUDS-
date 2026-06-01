@@ -114,6 +114,8 @@ function AddUser() {
 
   // Placeholder registration function
   const AddUser = async () => {
+
+    // Call the validation function and return early if validation fails
     if (!validationAddUser()) {
       return;
     }

@@ -9,7 +9,7 @@ import {db} from '../Firebase/firebase'; // Corrected import path for the Firest
 import { doc, getDoc, updateDoc} from 'firebase/firestore'; // Import necessary Firestore functions for querying and adding documents
 
 function EditBooking() {
-    const { id } = useParams();
+    const { id } = useParams(); // Get the ID from the URL parameters
     useEffect(() => {
         handleNavToggle();
         fetchUser(); // Call the function to initialize navigation toggle functionality

@@ -9,7 +9,7 @@ import { handleNavToggle } from '../Core-Front-Page/Main Page/JavaScript';
 function UserCheckIn() {
     useEffect(() => {
     handleNavToggle(); // Call the function to initialize navigation toggle functionality
-    fetchLocation();
+    fetchLocation(); // Call the function to fetch location data from Firestore when the component mounts
 }, []); 
 
     const [filter, setFilter] = useState("All");

@@ -99,11 +99,13 @@ function UserCheckOut() {
 
     const handleCheckOut = async () => {
         try {
+            // Validate if a location is selected
             if (!selectLocation) {
                 alert("Please select a location.");
                 return;
             }
 
+            // Find the selected location data
             const selectData = reservation.find(
                 item => item.id === selectLocation
             );
@@ -114,19 +116,21 @@ function UserCheckOut() {
                 return;
             }
 
+            // Update the capacity of the selected location in Firestore
             const locationRef = doc(
                 db,
                 "Reservation",
                 selectLocation
             );
 
+            // Decrement the capacity by 1
             await updateDoc(locationRef, {
                 Capacity: increment(-1)
             });
 
             alert("Check Out Successful!");
 
-            fetchLocation();
+            fetchLocation(); // Refresh the location data after check-out
 
         } catch (error) {
             console.error("Error checking out:", error);
